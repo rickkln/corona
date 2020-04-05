@@ -48,11 +48,15 @@ typings/
 # Optional REPL history
 .node_repl_history
 
+# Firebase cache directory
+.firebase
+
 # Output of 'npm pack'
 *.tgz
 
 # dotenv environment variable files
 .env*
+.firebaserc
 
 # gatsby files
 .cache/

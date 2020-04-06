@@ -39,7 +39,7 @@ const Header = () => (
       <div
         className={styles.title}
         style={{
-          flex: '2',
+          flex: '3.5',
         }}
       >
         <Link
@@ -62,7 +62,7 @@ const Header = () => (
       </div>
       <div
         style={{
-          flex: '3',
+          flex: '6',
           display: 'flex',
           justifyContent: 'flex-end',
           alignItems: 'center',

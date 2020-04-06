@@ -5,7 +5,7 @@ import Img from 'gatsby-image';
 const Logo = () => {
   const data = useStaticQuery(graphql`
     query {
-      placeholderImage: file(relativePath: { eq: "logo.png" }) {
+      placeholderImage: file(relativePath: { eq: "coronavirus.png" }) {
         childImageSharp {
           fluid(maxWidth: 80) {
             ...GatsbyImageSharpFluid
@@ -24,6 +24,7 @@ const Logo = () => {
         borderStyle: 'solid',
         borderWidth: '0.15rem',
       }}
+      title="Image used from the Public Health Image Library: https://phil.cdc.gov/Details.aspx?pid=23312"
       fluid={data.placeholderImage.childImageSharp.fluid}
     />
   );

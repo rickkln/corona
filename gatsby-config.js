@@ -24,7 +24,7 @@ module.exports = {
         background_color: '#202124',
         theme_color: '#202124',
         display: 'browser',
-        icon: 'src/images/logo-icon.png', // This path is relative to the root of the site.
+        icon: 'src/images/coronavirus.png', // This path is relative to the root of the site.
       },
     },
     'gatsby-plugin-typescript',

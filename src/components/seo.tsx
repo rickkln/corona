@@ -28,7 +28,7 @@ const SEO = ({
 }: Props) => {
   const { site }: SiteQuery = useStaticQuery(
     graphql`
-      query {
+      query Site {
         site {
           siteMetadata {
             title
@@ -39,7 +39,7 @@ const SEO = ({
       }
     `,
   );
-  const metaDescription = description || site.siteMetadata.description;
+  const metaDescription = description ?? site?.siteMetadata?.description ?? '';
   const metaItems: MetaHTMLAttributes<HTMLMetaElement>[] = [
     {
       name: 'description',
@@ -63,7 +63,7 @@ const SEO = ({
     },
     {
       name: 'twitter:creator',
-      content: site.siteMetadata.author,
+      content: site?.siteMetadata?.author ?? '',
     },
     {
       name: 'twitter:title',
@@ -81,7 +81,7 @@ const SEO = ({
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      titleTemplate={`%s | ${site?.siteMetadata?.title}`}
       meta={metaItems.concat(meta)}
     />
   );

@@ -4,7 +4,7 @@ import Img from 'gatsby-image';
 
 const Logo = () => {
   const data = useStaticQuery(graphql`
-    query {
+    query ImageSharp {
       placeholderImage: file(relativePath: { eq: "coronavirus.png" }) {
         childImageSharp {
           fluid(maxWidth: 80) {

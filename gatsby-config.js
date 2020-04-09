@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Corona',
+    title: 'Cornavirus Pandemic Tracker',
     description: 'A simple tool to track global progress in defeating Covid-19.',
     author: '@rickkln',
   },

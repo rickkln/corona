@@ -5,7 +5,7 @@ export const countryQuery = gql`
     countries {
       name
       results {
-        date
+        date(format: "yyyy/MM/dd")
         deaths
       }
     }

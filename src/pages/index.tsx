@@ -20,6 +20,7 @@ const formatCell = (country: Country, period: number): String => {
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
   const growthData = useMemo(() => calculateGrowthData(data), [data]);
+  console.log(growthData);
   const columns = React.useMemo(
     () => [
       {

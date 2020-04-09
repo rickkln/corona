@@ -69,3 +69,25 @@ export const calculateGrowthData = (data: Countries | undefined): Country[] => {
     };
   });
 };
+
+export const sumGrowthData = (countries: Country[]) => {
+  const deathCounts = countries.reduce(
+    (global, country) => global.map((count, index) => (
+      count + country.deathCounts[index]
+    )),
+    Array(7).fill(0),
+  );
+  return deathCounts
+    .map((current, index, array) => {
+      if (index < array.length) {
+        const previous = deathCounts[index + 1];
+        const newDeaths = current - previous;
+        const growthRate = (newDeaths / previous) * 100;
+        return Math.round(growthRate * 100) / 100;
+      }
+      // In this case this is the last period which we just needed
+      // to calculate the penultimate one, we will slice it off below
+      return 0;
+    })
+    .slice(0, -1);
+};

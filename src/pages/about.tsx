@@ -6,7 +6,7 @@ const AboutPage = () => (
   <Layout>
     <SEO title="About" />
     <p>
-      About
+      This is another Covid19 tracking website, because there aren&apos;t enough of those already.
     </p>
   </Layout>
 );

@@ -14,7 +14,7 @@ const formatCell = (country: Country, period: number): String => {
   } if (!Number.isFinite(growthRate)) {
     return 'Deaths start';
   }
-  return growthRate.toString();
+  return `${growthRate.toString()}%`;
 };
 
 const IndexPage = () => {

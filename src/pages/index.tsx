@@ -5,7 +5,7 @@ import Layout from '../components/layout';
 import SEO from '../components/seo';
 import {
   Countries, Country, countryQuery, calculateGrowthData, getPeriodName,
-} from './getData';
+} from '../utilities/getData';
 
 const formatCell = (country: Country, period: number): String => {
   const growthRate = country.growthRates[period];

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const getCountries = gql`
+export const countryQuery = gql`
   query {
     countries {
       name
@@ -19,8 +19,8 @@ export interface Countries {
 interface Country {
   name?: string
   results?: Result[]
-  deathCounts?: number[]
-  growthRates?: number[]
+  deathCounts: number[]
+  growthRates: number[]
 }
 
 interface Result {
@@ -28,8 +28,14 @@ interface Result {
   deaths?: number
 }
 
-export const calculateGrowthData = (data: Countries | undefined) => {
-  if (!data) { return []; }
+export const getPeriodName = (startingDaysAgo: number) => {
+  const startDate = new Date(new Date().setDate(new Date().getDate() - startingDaysAgo));
+  const endDate = new Date(new Date().setDate(new Date().getDate() - startingDaysAgo + 4));
+  return `${startDate.getDate()}/${startDate.getMonth() + 1} - ${endDate.getDate()}/${endDate.getMonth() + 1}`;
+};
+
+export const calculateGrowthData = (data: Countries | undefined): Country[] => {
+  if (!data?.countries) { return []; }
   return data?.countries?.map((country) => {
     const deathCounts: number[] = Array(7);
     country?.results?.forEach((result) => {

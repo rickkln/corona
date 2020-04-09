@@ -4,12 +4,23 @@ import { useTable } from 'react-table';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import {
-  Countries, countryQuery, calculateGrowthData, getPeriodName,
+  Countries, Country, countryQuery, calculateGrowthData, getPeriodName,
 } from './getData';
+
+const formatCell = (country: Country, period: number): String => {
+  const growthRate = country.growthRates[period];
+  if (Number.isNaN(growthRate)) {
+    return 'No deaths';
+  } if (!Number.isFinite(growthRate)) {
+    return 'Deaths start';
+  }
+  return growthRate.toString();
+};
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
   const growthData = useMemo(() => calculateGrowthData(data), [data]);
+  console.log(growthData);
   const columns = React.useMemo(
     () => [
       {
@@ -18,27 +29,27 @@ const IndexPage = () => {
       },
       {
         Header: getPeriodName(30),
-        accessor: 'growthRates[5]',
+        accessor: (row: Country) => formatCell(row, 5),
       },
       {
         Header: getPeriodName(25),
-        accessor: 'growthRates[4]',
+        accessor: (row: Country) => formatCell(row, 4),
       },
       {
         Header: getPeriodName(20),
-        accessor: 'growthRates[3]',
+        accessor: (row: Country) => formatCell(row, 3),
       },
       {
         Header: getPeriodName(15),
-        accessor: 'growthRates[2]',
+        accessor: (row: Country) => formatCell(row, 2),
       },
       {
         Header: getPeriodName(10),
-        accessor: 'growthRates[1]',
+        accessor: (row: Country) => formatCell(row, 1),
       },
       {
         Header: getPeriodName(5),
-        accessor: 'growthRates[0]',
+        accessor: (row: Country) => formatCell(row, 0),
       },
     ],
     [],
@@ -69,7 +80,7 @@ const IndexPage = () => {
   return (
     <Layout>
       <SEO title="Latest" />
-      <p>Latest</p>
+      <p>Global rates of change in Covid19 death rate over the six most recent 5-day periods. </p>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (

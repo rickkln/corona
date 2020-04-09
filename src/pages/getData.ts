@@ -16,7 +16,7 @@ export interface Countries {
   countries?: Country[];
 }
 
-interface Country {
+export interface Country {
   name?: string
   results?: Result[]
   deathCounts: number[]
@@ -37,7 +37,7 @@ export const getPeriodName = (startingDaysAgo: number) => {
 export const calculateGrowthData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }
   return data?.countries?.map((country) => {
-    const deathCounts: number[] = Array(7);
+    const deathCounts: number[] = Array(7).fill(0);
     country?.results?.forEach((result) => {
       if (!result?.date) { return; }
       const millisecondsAgo = new Date().valueOf() - new Date(result?.date).valueOf();

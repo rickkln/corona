@@ -45,7 +45,8 @@ const calulateGrowthRates = (deathCounts: number[]) => deathCounts
     // In this case this is one of the last 2 periods which we just needed
     // to calculate the last one, we will slice them off below
     return 0;
-  });
+  })
+  .slice(0, -2);
 
 export const calculateGrowthData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }

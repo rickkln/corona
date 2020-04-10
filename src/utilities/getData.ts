@@ -34,34 +34,35 @@ export const getPeriodName = (startingDaysAgo: number) => {
   return `${startDate.getDate()}/${startDate.getMonth() + 1} - ${endDate.getDate()}/${endDate.getMonth() + 1}`;
 };
 
+const calulateGrowthRates = (deathCounts: number[]) => deathCounts
+  .map((currentDeathCount, index, array) => {
+    if (index < (array.length - 1)) {
+      const previousNewDeaths = deathCounts[index + 1] - deathCounts[index + 2];
+      const currentNewDeaths = currentDeathCount - deathCounts[index + 1];
+      const growthRate = ((currentNewDeaths - previousNewDeaths) / previousNewDeaths) * 100;
+      return Math.round(growthRate * 100) / 100;
+    }
+    // In this case this is one of the last 2 periods which we just needed
+    // to calculate the last one, we will slice them off below
+    return 0;
+  });
+
 export const calculateGrowthData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }
   return data?.countries?.map((country) => {
-    const deathCounts: number[] = Array(7).fill(0);
+    const deathCounts: number[] = Array(8).fill(0);
     country?.results?.forEach((result) => {
       if (!result?.date) { return; }
       const millisecondsAgo = new Date().valueOf() - new Date(result?.date).valueOf();
       const daysAgo = Math.floor((millisecondsAgo) / (1000 * 60 * 60 * 24));
       // We're looking at six 5-day periods over the last month
-      // We include one extra preceeding period for calculations
+      // We include two extra preceeding period for calculations
       // We ignore today as it has incomplete data
-      if (daysAgo <= 35 && daysAgo >= 1) {
+      if (daysAgo <= 40 && daysAgo >= 1) {
         deathCounts[Math.round(daysAgo / 5) - 1] = result?.deaths ?? 0;
       }
     });
-    const growthRates = deathCounts
-      .map((current, index, array) => {
-        if (index < array.length) {
-          const previous = deathCounts[index + 1];
-          const newDeaths = current - previous;
-          const growthRate = (newDeaths / previous) * 100;
-          return Math.round(growthRate * 100) / 100;
-        }
-        // In this case this is the last period which we just needed
-        // to calculate the penultimate one, we will slice it off below
-        return 0;
-      })
-      .slice(0, -1);
+    const growthRates = calulateGrowthRates(deathCounts);
     return {
       ...country,
       deathCounts,
@@ -75,19 +76,7 @@ export const sumGrowthData = (countries: Country[]) => {
     (global, country) => global.map((count, index) => (
       count + country.deathCounts[index]
     )),
-    Array(7).fill(0),
+    Array(8).fill(0),
   );
-  return deathCounts
-    .map((current, index, array) => {
-      if (index < array.length) {
-        const previous = deathCounts[index + 1];
-        const newDeaths = current - previous;
-        const growthRate = (newDeaths / previous) * 100;
-        return Math.round(growthRate * 100) / 100;
-      }
-      // In this case this is the last period which we just needed
-      // to calculate the penultimate one, we will slice it off below
-      return 0;
-    })
-    .slice(0, -1);
+  return calulateGrowthRates(deathCounts);
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './header/header';
+import Header from './header';
 import './layout.css';
 
 interface Props {

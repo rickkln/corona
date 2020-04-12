@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import { Link } from 'gatsby';
 import styles from './header.module.css';
-import Logo from '../logo';
+import Logo from './logo';
 
 const linkStyle: CSSProperties = {
   textDecoration: 'none',

@@ -3,13 +3,19 @@ import { useQuery } from '@apollo/client';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import {
-  Countries, countryQuery, calculateData, sumPeriodData,
+  countryQuery, calculateData, sumPeriodData, Countries, OutbreakStatus,
 } from '../utilities/getData';
-import { SummaryTable, FullTable } from '../components/homeTables';
+import { SummaryTable, FullTable } from '../components/growthTables';
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
   const allData = useMemo(() => calculateData(data), [data]);
+  const losingData = allData.filter(
+    (country) => country.periods[1].status === OutbreakStatus.Losing,
+  );
+  const winningData = allData.filter(
+    (country) => country.periods[1].status === OutbreakStatus.Winning,
+  );
   const globalData = sumPeriodData(allData);
   if (loading) {
     return (
@@ -63,7 +69,10 @@ const IndexPage = () => {
       <h1>Are we winning?</h1>
       { BattleStatus }
       <SummaryTable data={[globalData]} />
-      <FullTable data={allData} />
+      <h1>Where are we doing best?</h1>
+      <FullTable data={winningData} />
+      <h1>Where are we doing worst?</h1>
+      <FullTable data={losingData} />
     </Layout>
   );
 };

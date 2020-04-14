@@ -27,7 +27,7 @@ interface Result {
   deaths?: number
 }
 
-enum OutbreakStatus {
+export enum OutbreakStatus {
   None,
   Starting,
   Losing,
@@ -57,7 +57,7 @@ const periodStatus = (
 ): OutbreakStatus | undefined => {
   if (totalDeaths === 0) {
     return OutbreakStatus.None;
-  } if (totalDeaths < 10) {
+  } if (totalDeaths < 10 || !Number.isFinite(growthRate)) {
     return OutbreakStatus.Starting;
   } if (growthRate >= 100) {
     return OutbreakStatus.Losing;

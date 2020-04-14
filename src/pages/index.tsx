@@ -11,10 +11,10 @@ const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
   const allData = useMemo(() => calculateData(data), [data]);
   const losingData = allData.filter(
-    (country) => country.periods[1].status === OutbreakStatus.Losing,
+    (country) => country.periods[0].status === OutbreakStatus.Losing,
   );
   const winningData = allData.filter(
-    (country) => country.periods[1].status === OutbreakStatus.Winning,
+    (country) => country.periods[0].status === OutbreakStatus.Winning,
   );
   const globalData = sumPeriodData(allData);
   if (loading) {

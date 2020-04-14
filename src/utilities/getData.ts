@@ -19,13 +19,29 @@ export interface Countries {
 export interface Country {
   name?: string
   results?: Result[]
-  deathCounts: number[]
-  growthRates: number[]
+  periods: Period[]
 }
 
 interface Result {
   date?: string
   deaths?: number
+}
+
+enum OutbreakStatus {
+  None,
+  Starting,
+  Losing,
+  Flattening,
+  Crushing,
+  Winning,
+  Won,
+}
+
+export interface Period {
+  totalDeaths: number
+  newDeaths: number
+  growthRate: number
+  status: OutbreakStatus | undefined
 }
 
 export const getPeriodName = (startingDaysAgo: number) => {
@@ -34,21 +50,53 @@ export const getPeriodName = (startingDaysAgo: number) => {
   return `${startDate.getDate()}/${startDate.getMonth() + 1} - ${endDate.getDate()}/${endDate.getMonth() + 1}`;
 };
 
-const calulateGrowthRates = (deathCounts: number[]) => deathCounts
+const periodStatus = (
+  totalDeaths: number,
+  newDeaths: number,
+  growthRate: number,
+): OutbreakStatus | undefined => {
+  if (totalDeaths === 0) {
+    return OutbreakStatus.None;
+  } if (totalDeaths < 10) {
+    return OutbreakStatus.Starting;
+  } if (growthRate >= 100) {
+    return OutbreakStatus.Losing;
+  } if (growthRate > 0 || newDeaths > 100) {
+    return OutbreakStatus.Flattening;
+  } if ((newDeaths > 10 && newDeaths < 100) || growthRate <= -100) {
+    return OutbreakStatus.Crushing;
+  } if (newDeaths < 10) {
+    return OutbreakStatus.Winning;
+  } if (newDeaths === 0) {
+    return OutbreakStatus.Won;
+  }
+  return undefined;
+};
+
+const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
   .map((currentDeathCount, index, array) => {
     if (index < (array.length - 1)) {
       const previousNewDeaths = deathCounts[index + 1] - deathCounts[index + 2];
       const currentNewDeaths = currentDeathCount - deathCounts[index + 1];
       const growthRate = ((currentNewDeaths - previousNewDeaths) / previousNewDeaths) * 100;
-      return Math.round(growthRate * 100) / 100;
+      return {
+        totalDeaths: currentDeathCount,
+        newDeaths: currentNewDeaths,
+        status: periodStatus(currentDeathCount, currentNewDeaths, growthRate),
+        growthRate: Math.round(growthRate * 100) / 100,
+      };
     }
-    // In this case this is one of the last 2 periods which we just needed
-    // to calculate the last one, we will slice them off below
-    return 0;
-  })
-  .slice(0, -2);
+    // In this case this is one of the 2 periods periods which we just needed
+    // to calculate the last one
+    return {
+      totalDeaths: 0,
+      newDeaths: 0,
+      status: OutbreakStatus.None,
+      growthRate: 0,
+    };
+  });
 
-export const calculateGrowthData = (data: Countries | undefined): Country[] => {
+export const calculateData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }
   return data?.countries?.map((country) => {
     const deathCounts: number[] = Array(8).fill(0);
@@ -63,21 +111,20 @@ export const calculateGrowthData = (data: Countries | undefined): Country[] => {
         deathCounts[Math.round(daysAgo / 5) - 1] = result?.deaths ?? 0;
       }
     });
-    const growthRates = calulateGrowthRates(deathCounts);
+    const periods = calulatePeriodData(deathCounts);
     return {
       ...country,
-      deathCounts,
-      growthRates,
+      periods,
     };
   });
 };
 
-export const sumGrowthData = (countries: Country[]) => {
+export const sumPeriodData = (countries: Country[]) => {
   const deathCounts = countries.reduce(
-    (global, country) => global.map((count, index) => (
-      count + country.deathCounts[index]
-    )),
+    (global, country) => global.map(
+      (totalDeaths, index) => totalDeaths + country.periods[index].totalDeaths,
+    ),
     Array(8).fill(0),
   );
-  return calulateGrowthRates(deathCounts);
+  return calulatePeriodData(deathCounts);
 };

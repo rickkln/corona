@@ -1,5 +1,13 @@
 import React from 'react';
 import { TableInstance } from 'react-table';
+import './table.css';
+import { Period } from '../utilities/getData';
+
+declare module 'react-table' {
+  interface ColumnInstance {
+    getClassName: (period: Period) => string
+  }
+}
 
 const Table = <T extends {}>({ table }: {table: TableInstance<T>}) => (
   <table
@@ -42,7 +50,7 @@ const Table = <T extends {}>({ table }: {table: TableInstance<T>}) => (
               <td
                 key={cell.getCellProps().key}
                 style={cell.getCellProps().style}
-                className={cell.getCellProps().className}
+                className={cell.column.getClassName?.(cell.value)}
               >
                 {cell.render('Cell')}
               </td>

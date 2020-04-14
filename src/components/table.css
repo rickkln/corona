@@ -1,0 +1,27 @@
+.none {
+  background-color: lightgray;
+}
+
+.starting {
+  background-color: lightpink;
+}
+
+.losing {
+  background-color: lightcoral;
+}
+
+.flattening {
+  background-color: lightsalmon;
+}
+
+.crushing {
+  background-color: lightskyblue;
+}
+
+.winning {
+  background-color: lightgreen;
+}
+
+.won {
+  background-color: lightseagreen;
+}

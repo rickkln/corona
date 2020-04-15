@@ -21,7 +21,7 @@ const Header = () => (
       style={{
         margin: '0 auto',
         maxWidth: 960,
-        padding: '1.4rem 1.0875rem 1rem',
+        padding: '1.4rem 1.0875rem 0',
         display: 'flex',
         justifyContent: 'space-evenly',
         flexWrap: 'wrap',

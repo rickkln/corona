@@ -61,9 +61,9 @@ const periodStatus = (
     return OutbreakStatus.Starting;
   } if (growthRate >= 100) {
     return OutbreakStatus.Losing;
-  } if (growthRate > 0 || newDeaths > 100) {
+  } if (growthRate > 0 || newDeaths >= 100) {
     return OutbreakStatus.Flattening;
-  } if ((newDeaths > 10 && newDeaths < 100) || growthRate <= -100) {
+  } if ((newDeaths >= 10 && newDeaths < 100) || growthRate <= -100) {
     return OutbreakStatus.Crushing;
   } if (newDeaths < 10) {
     return OutbreakStatus.Winning;

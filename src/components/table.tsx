@@ -1,57 +1,50 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { TableInstance } from 'react-table';
+import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 import './table.css';
 import { Period } from '../utilities/getData';
 
 declare module 'react-table' {
   interface ColumnInstance {
     getClassName: (period: Period) => string
+    isSorted: boolean
+    isSortedDesc: boolean
   }
 }
 
+const SortIcon = ({ isSorted, isSortedDesc }: { isSorted: boolean, isSortedDesc: boolean}) => {
+  if (isSorted) {
+    return isSortedDesc
+      ? <FaSortDown />
+      : <FaSortUp />;
+  }
+  return <FaSort />;
+};
+
 const Table = <T extends {}>({ table }: {table: TableInstance<T>}) => (
-  <table
-    style={table.getTableProps().style}
-    className={table.getTableBodyProps().className}
-  >
+  <table {...table.getTableProps()}>
     <thead>
       {table.headerGroups.map((headerGroup) => (
-        <tr
-          style={headerGroup.getHeaderGroupProps().style}
-          className={headerGroup.getHeaderGroupProps().className}
-          key={headerGroup.getHeaderGroupProps().key}
-        >
+        <tr {...headerGroup.getHeaderGroupProps()}>
           {headerGroup.headers.map((column) => (
-            <th
-              style={column.getHeaderProps().style}
-              className={column.getHeaderProps().className}
-              key={column.getHeaderProps().key}
-            >
+            <th {...column.getHeaderProps(column.getSortByToggleProps?.())}>
               {column.render('Header')}
+              <span>
+                <SortIcon isSorted={column.isSorted} isSortedDesc={column.isSortedDesc} />
+              </span>
             </th>
           ))}
         </tr>
       ))}
     </thead>
-    <tbody
-      style={table.getTableBodyProps().style}
-      className={table.getTableBodyProps().className}
-    >
+    <tbody {...table.getTableBodyProps()}>
       {table.rows.map((row) => {
         table.prepareRow(row);
-        const rowProps = row.getRowProps();
         return (
-          <tr
-            style={rowProps.style}
-            className={rowProps.className}
-            key={rowProps.key}
-          >
+          <tr {...row.getRowProps()}>
             {row.cells.map((cell) => (
-              <td
-                key={cell.getCellProps().key}
-                style={cell.getCellProps().style}
-                className={cell.column.getClassName?.(cell.value)}
-              >
+              <td {...cell.getCellProps({ className: cell.column.getClassName?.(cell.value) })}>
                 {cell.render('Cell')}
               </td>
             ))}

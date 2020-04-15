@@ -73,11 +73,15 @@ const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
       const previousNewDeaths = deathCounts[index + 1] - deathCounts[index + 2];
       const currentNewDeaths = currentDeathCount - deathCounts[index + 1];
       const growthRate = ((currentNewDeaths - previousNewDeaths) / previousNewDeaths) * 100;
+      const currentStatus = periodStatus(currentDeathCount, currentNewDeaths, growthRate);
       return {
         totalDeaths: currentDeathCount,
         newDeaths: currentNewDeaths,
-        status: periodStatus(currentDeathCount, currentNewDeaths, growthRate),
-        growthRate: Math.round(growthRate * 100) / 100,
+        status: currentStatus,
+        growthRate:
+          (currentStatus !== OutbreakStatus.None) && (currentStatus !== OutbreakStatus.Starting)
+            ? Math.round(growthRate * 100) / 100
+            : 0,
       };
     }
     // In this case this is one of the 2 periods periods which we just needed

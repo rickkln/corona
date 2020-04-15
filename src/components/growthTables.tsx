@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTable } from 'react-table';
+import { useTable, useSortBy } from 'react-table';
 import Table from './table';
 import {
   getPeriodName, Country, Period, OutbreakStatus,
@@ -99,6 +99,9 @@ export const FullTable = ({ data }: { data: Country[] }) => {
     ],
     [],
   );
-  const table = useTable({ columns, data });
+  const initialState = {
+    sortBy: [{ id: 'name' }],
+  };
+  const table = useTable({ columns, data, initialState }, useSortBy);
   return <Table table={table} />;
 };

@@ -31,6 +31,8 @@ const Layout = ({ children }: Props) => (
         by
         {' '}
         <a href="https://twitter.com/rickkln">@rickkln</a>
+        <br />
+        <a href="https://github.com/rickkln/corona">View Source</a>
       </footer>
     </div>
   </>

@@ -34,45 +34,68 @@ const IndexPage = () => {
     );
   }
   let BattleStatus;
-  if (globalData[0].growthRate > 0) {
+  if (globalData[0].periods[0].growthRate > 0) {
     BattleStatus = (
-      <p>
+      <span>
         <strong>No</strong>
         , globally new deaths rose by
         {' '}
         <strong>
-          {globalData[0].growthRate}
+          {globalData[0].periods[0].growthRate}
           %
         </strong>
         {' '}
         in the last 5-day period.
-      </p>
+      </span>
     );
   } else {
     BattleStatus = (
-      <p>
+      <span>
         <strong>Yes</strong>
         , globally new deaths fell by
         {' '}
         <strong>
-          {globalData[0].growthRate}
+          {globalData[0].periods[0].growthRate}
           %
         </strong>
         {' '}
         in the last 5-day period.
-      </p>
+      </span>
     );
   }
   return (
     <Layout>
       <SEO title="Latest" />
-      <h1>Are we winning?</h1>
-      { BattleStatus }
-      <SummaryTable data={[globalData]} />
-      <h1>Where are we doing best?</h1>
-      <FullTable data={winningData} />
-      <h1>Where are we doing worst?</h1>
-      <FullTable data={losingData} />
+      <h1>Is the world winning?</h1>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+        }}
+      >
+        <div style={{ flex: 1, minWidth: '300px' }}>
+          { BattleStatus }
+        </div>
+        <div style={{ flex: 1 }}>
+          <SummaryTable data={globalData} />
+        </div>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          margin: '0 -1em',
+        }}
+      >
+        <div style={{ flex: 1, minWidth: '300px', padding: '0 1em' }}>
+          <h3>Where are we winning?</h3>
+          <SummaryTable data={winningData} />
+        </div>
+        <div style={{ flex: 1, minWidth: '300px', padding: '0 1em' }}>
+          <h3>Where are we losing?</h3>
+          <SummaryTable data={losingData} />
+        </div>
+      </div>
     </Layout>
   );
 };

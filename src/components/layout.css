@@ -572,16 +572,17 @@ thead {
 }
 td,
 th {
+  font-size: 0.65em;
   text-align: left;
   border-bottom: 1px solid hsla(0, 0%, 0%, 0.12);
   font-feature-settings: "tnum";
   -moz-font-feature-settings: "tnum";
   -ms-font-feature-settings: "tnum";
   -webkit-font-feature-settings: "tnum";
-  padding-left: 0.96667rem;
-  padding-right: 0.96667rem;
-  padding-top: 0.725rem;
-  padding-bottom: calc(0.725rem - 1px);
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  padding-top: 0.2rem;
+  padding-bottom: calc(0.2rem - 1px);
 }
 th:first-child,
 td:first-child {

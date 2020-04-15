@@ -1,0 +1,17 @@
+.tiny-table table {
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tiny-table th,
+.tiny-table td {
+  text-align: center;
+}
+.tiny-table th:first-child,
+.tiny-table td:first-child {
+    padding-left: 0.3rem;
+}
+.tiny-table th:last-child,
+.tiny-table td:last-child {
+  padding-right: 0.3rem;
+}

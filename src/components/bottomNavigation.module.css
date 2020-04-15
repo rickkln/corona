@@ -1,0 +1,31 @@
+.nav {
+  background-color: rgba(255, 255, 255, 0.985);
+  border-color: rgb(240, 240, 242);
+  border-top-style: solid;
+  border-top-width: 1px;
+  position: fixed;
+  bottom: 0rem;
+  left: 0rem;
+  right: 0rem;
+  display: flex;
+}
+
+.link-style {
+  flex: 1;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.8rem;
+}
+.link-style svg {
+  margin: 0.3rem 0 -0.5rem;
+  font-size: 2rem;
+}
+.link-style p {
+  margin: 0 0 0.1rem;
+}
+
+@media only screen and (min-width: 480px) {
+  .nav {
+    display: none;
+  }
+}

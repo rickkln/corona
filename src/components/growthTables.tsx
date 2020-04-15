@@ -141,5 +141,9 @@ export const FullTable = ({ data }: { data: Country[] }) => {
 
   const table = useTable({ columns, data, initialState }, useSortBy);
 
-  return <Table table={table} />;
+  return (
+    <div className={styles.fullTable}>
+      <Table table={table} />
+    </div>
+  );
 };

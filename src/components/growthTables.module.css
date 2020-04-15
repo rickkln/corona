@@ -15,3 +15,14 @@
 .tiny-table td:last-child {
   padding-right: 0.3rem;
 }
+
+@media only screen and (max-width: 480px) {
+  .full-table th:nth-child(2),
+  .full-table td:nth-child(2),
+  .full-table th:nth-child(3),
+  .full-table td:nth-child(3),
+  .full-table th:nth-child(4),
+  .full-table td:nth-child(4) {
+    display: none;
+  }
+}

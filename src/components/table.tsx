@@ -14,7 +14,7 @@ declare module 'react-table' {
 }
 
 const SortIcon = ({ isSorted, isSortedDesc }: { isSorted: boolean, isSortedDesc: boolean}) => {
-  if (isSorted === undefined) { return ''; }
+  if (isSorted === undefined) { return null; }
   if (isSorted) {
     return isSortedDesc
       ? <FaSortDown />

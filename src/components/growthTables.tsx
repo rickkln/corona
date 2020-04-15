@@ -1,9 +1,13 @@
 import React from 'react';
 import { useTable, useSortBy } from 'react-table';
+import styles from './growthTables.module.css';
 import Table from './table';
-import {
-  getPeriodName, Country, Period, OutbreakStatus,
-} from '../utilities/getData';
+import { Country, Period, OutbreakStatus } from '../utilities/getData';
+
+const getPeriodName = (endingDaysAgo: number) => {
+  const endDate = new Date(new Date().setDate(new Date().getDate() - endingDaysAgo));
+  return `${endDate.getDate()}/${endDate.getMonth() + 1}`;
+};
 
 const formatCell = (period: Period) => {
   const growthValue = `${period.growthRate.toString()}%`;
@@ -25,32 +29,50 @@ const formatCell = (period: Period) => {
   return { value: '', className: '' };
 };
 
-export const SummaryTable = ({ data }: { data: Period[][] }) => {
+export const SummaryTable = ({ data }: { data: Country[] }) => {
   const columns = React.useMemo(
-    () => [
-      {
-        Header: getPeriodName(15),
-        accessor: '2',
-        Cell: ({ value }: { value: Period }) => formatCell(value).value,
-        getClassName: (period: Period) => formatCell(period).className,
-      },
-      {
-        Header: getPeriodName(10),
-        accessor: '1',
-        Cell: ({ value }: { value: Period }) => formatCell(value).value,
-        getClassName: (period: Period) => formatCell(period).className,
-      },
-      {
-        Header: getPeriodName(5),
-        accessor: '0',
-        Cell: ({ value }: { value: Period }) => formatCell(value).value,
-        getClassName: (period: Period) => formatCell(period).className,
-      },
-    ],
-    [],
+    () => {
+      const country = data.length > 1
+        ? [{
+          Header: 'Country',
+          accessor: 'name',
+        }]
+        : [];
+      return [...country, ...[
+        {
+          Header: getPeriodName(11),
+          accessor: 'periods[2]',
+          Cell: ({ value }: { value: Period }) => formatCell(value).value,
+          getClassName: (period: Period) => formatCell(period).className,
+        },
+        {
+          Header: getPeriodName(6),
+          accessor: 'periods[1]',
+          Cell: ({ value }: { value: Period }) => formatCell(value).value,
+          getClassName: (period: Period) => formatCell(period).className,
+        },
+        {
+          Header: getPeriodName(1),
+          accessor: 'periods[0]',
+          Cell: ({ value }: { value: Period }) => formatCell(value).value,
+          getClassName: (period: Period) => formatCell(period).className,
+        },
+      ]];
+    },
+    [data.length],
   );
   const table = useTable({ columns, data });
-  return <Table table={table} />;
+  return (
+    <div
+      className={
+        data.length === 1
+          ? styles.tinyTable
+          : ''
+      }
+    >
+      <Table table={table} />
+    </div>
+  );
 };
 
 export const FullTable = ({ data }: { data: Country[] }) => {
@@ -61,37 +83,37 @@ export const FullTable = ({ data }: { data: Country[] }) => {
         accessor: 'name',
       },
       {
-        Header: getPeriodName(30),
+        Header: getPeriodName(26),
         accessor: 'periods[5]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
       },
       {
-        Header: getPeriodName(25),
+        Header: getPeriodName(21),
         accessor: 'periods[4]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
       },
       {
-        Header: getPeriodName(20),
+        Header: getPeriodName(16),
         accessor: 'periods[3]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
       },
       {
-        Header: getPeriodName(15),
+        Header: getPeriodName(11),
         accessor: 'periods[2]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
       },
       {
-        Header: getPeriodName(10),
+        Header: getPeriodName(6),
         accessor: 'periods[1]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
       },
       {
-        Header: getPeriodName(5),
+        Header: getPeriodName(1),
         accessor: 'periods[0]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,

@@ -44,12 +44,6 @@ export interface Period {
   status: OutbreakStatus | undefined
 }
 
-export const getPeriodName = (startingDaysAgo: number) => {
-  const startDate = new Date(new Date().setDate(new Date().getDate() - startingDaysAgo));
-  const endDate = new Date(new Date().setDate(new Date().getDate() - startingDaysAgo + 4));
-  return `${startDate.getDate()}/${startDate.getMonth() + 1} - ${endDate.getDate()}/${endDate.getMonth() + 1}`;
-};
-
 const periodStatus = (
   totalDeaths: number,
   newDeaths: number,
@@ -119,12 +113,16 @@ export const calculateData = (data: Countries | undefined): Country[] => {
   });
 };
 
-export const sumPeriodData = (countries: Country[]) => {
+export const sumPeriodData = (countries: Country[]): Country[] => {
   const deathCounts = countries.reduce(
     (global, country) => global.map(
       (totalDeaths, index) => totalDeaths + country.periods[index].totalDeaths,
     ),
     Array(8).fill(0),
   );
-  return calulatePeriodData(deathCounts);
+  return [{
+    name: '',
+    results: [],
+    periods: calulatePeriodData(deathCounts),
+  }];
 };

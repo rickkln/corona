@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { Link } from 'gatsby';
-import { IoMdGlobe, IoIosInformationCircleOutline } from 'react-icons/io';
+import { IoMdGlobe, IoIosInformationCircleOutline, IoMdSearch } from 'react-icons/io';
 import { TiChartBarOutline } from 'react-icons/ti';
 import styles from './bottomNavigation.module.css';
 
@@ -20,6 +20,10 @@ const BottomNavigation = () => (
         <TiChartBarOutline />
       </p>
       <p>Data</p>
+    </Link>
+    <Link to="/detail" className={styles.linkStyle} activeStyle={activeStyle}>
+      <p><IoMdSearch /></p>
+      <p>Detail</p>
     </Link>
     <Link to="/about" className={styles.linkStyle} activeStyle={activeStyle}>
       <p><IoIosInformationCircleOutline /></p>

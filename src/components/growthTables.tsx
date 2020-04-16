@@ -4,7 +4,9 @@ import {
 } from 'react-table';
 import styles from './growthTables.module.css';
 import Table from './table';
-import { Country, Period, OutbreakStatus } from '../utilities/getData';
+import {
+  Country, Period, OutbreakStatus, getCSSClassFor,
+} from '../utilities/getData';
 
 const getPeriodName = (endingDaysAgo: number) => {
   const endDate = new Date(new Date().setDate(new Date().getDate() - endingDaysAgo));
@@ -12,23 +14,15 @@ const getPeriodName = (endingDaysAgo: number) => {
 };
 
 const formatCell = (period: Period) => {
-  const growthValue = `${period.growthRate.toString()}%`;
-  if (period.status === OutbreakStatus.None) {
-    return { value: 'No Outbreak', className: 'none' };
-  } if (period.status === OutbreakStatus.Starting) {
-    return { value: 'Outbreak Starting', className: 'starting' };
-  } if (period.status === OutbreakStatus.Losing) {
-    return { value: growthValue, className: 'losing' };
-  } if (period.status === OutbreakStatus.Flattening) {
-    return { value: growthValue, className: 'flattening' };
-  } if (period.status === OutbreakStatus.Crushing) {
-    return { value: growthValue, className: 'crushing' };
-  } if (period.status === OutbreakStatus.Winning) {
-    return { value: growthValue, className: 'winning' };
-  } if (period.status === OutbreakStatus.Won) {
-    return { value: 'Outbreak Defeated', className: 'won' };
+  const className = getCSSClassFor(period.status);
+  if (
+    period.status === OutbreakStatus.None
+    || period.status === OutbreakStatus.Small
+    || period.status === OutbreakStatus.Won
+  ) {
+    return { value: period.status, className };
   }
-  return { value: '', className: '' };
+  return { value: `${period.growthRate.toString()}%`, className };
 };
 
 const periodSort = (

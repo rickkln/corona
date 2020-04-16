@@ -1,27 +1,21 @@
-.none {
+td.none {
   background-color: lightgray;
 }
-
-.starting {
+td.small {
   background-color: lightpink;
 }
-
-.losing {
+td.losing {
   background-color: lightcoral;
 }
-
-.flattening {
+td.flattening {
   background-color: lightsalmon;
 }
-
-.crushing {
+td.crushing {
   background-color: lightskyblue;
 }
-
-.winning {
+td.winning {
   background-color: lightgreen;
 }
-
-.won {
+td.won {
   background-color: lightseagreen;
 }

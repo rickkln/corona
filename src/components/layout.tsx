@@ -31,6 +31,8 @@ const Layout = ({ children }: Props) => (
       </footer>
     </div>
     <BottomNavigation />
+    <script src="/__/firebase/7.14.0/firebase-app.js" />
+    <script src="/__/firebase/init.js" />
   </>
 );
 

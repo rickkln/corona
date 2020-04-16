@@ -3,11 +3,11 @@ import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Legend from '../components/legend';
 
-const DetailPage = () => (
+const DetailsPage = () => (
   <Layout>
-    <SEO title="Detail" />
+    <SEO title="Details" />
     <Legend />
   </Layout>
 );
 
-export default DetailPage;
+export default DetailsPage;

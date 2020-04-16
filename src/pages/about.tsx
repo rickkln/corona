@@ -11,7 +11,11 @@ const AboutPage = () => (
       <a href="https://www.endcoronavirus.org/">EndCoronavirus.org</a>
       , which is backed by the NECSI, being the best one I have found.
       This one aims to provide simple tools for live updates on the rate of change in
-      death count globally.
+      death count globally. As well as be a venue for
+      {' '}
+      <a href="https://rickkln.com">me</a>
+      {' '}
+      to teach myself some things.
     </p>
     <p>
       All data is pulled from the
@@ -28,7 +32,7 @@ const AboutPage = () => (
       All code for this site is
       {' '}
       <a href="https://github.com/rickkln/corona">open source</a>
-      . It is build with
+      . It is built with
       {' '}
       <a href="https://www.gatsbyjs.org/">Gatsby</a>
       {' '}

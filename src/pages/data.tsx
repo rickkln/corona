@@ -35,7 +35,7 @@ const DataPage = () => {
       <p>
         Change in death rates, color coded by Outbreak Status.
         {' '}
-        <Link to="/detail">View Legend</Link>
+        <Link to="/details">View Legend</Link>
       </p>
       <FullTable data={allData} />
     </Layout>

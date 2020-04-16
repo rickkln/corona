@@ -28,13 +28,13 @@ interface Result {
 }
 
 export enum OutbreakStatus {
-  None,
-  Starting,
-  Losing,
-  Flattening,
-  Crushing,
-  Winning,
-  Won,
+  None = 'No Outbreak',
+  Small = 'Small Outbreak',
+  Losing = 'Losing',
+  Flattening = 'Flattening the Curve',
+  Crushing = 'Crushing the Curve',
+  Winning = 'Winning',
+  Won = 'Won',
 }
 
 export interface Period {
@@ -46,25 +46,45 @@ export interface Period {
 
 const periodStatus = (
   totalDeaths: number,
-  newDeaths: number,
+  currentNewDeaths: number,
+  previousNewDeaths: number,
   growthRate: number,
 ): OutbreakStatus | undefined => {
   if (totalDeaths === 0) {
     return OutbreakStatus.None;
   } if (totalDeaths < 10 || !Number.isFinite(growthRate)) {
-    return OutbreakStatus.Starting;
+    return OutbreakStatus.Small;
   } if (growthRate >= 100) {
     return OutbreakStatus.Losing;
-  } if (growthRate > 0 || newDeaths >= 100) {
+  } if (growthRate > 0 || currentNewDeaths >= 100) {
     return OutbreakStatus.Flattening;
-  } if ((newDeaths >= 10 && newDeaths < 100) || growthRate <= -100) {
+  } if ((currentNewDeaths >= 10 && currentNewDeaths < 100) || growthRate < -50) {
     return OutbreakStatus.Crushing;
-  } if (newDeaths < 10) {
-    return OutbreakStatus.Winning;
-  } if (newDeaths === 0) {
+  } if (currentNewDeaths === 0 && previousNewDeaths === 0) {
     return OutbreakStatus.Won;
+  } if (currentNewDeaths < 10) {
+    return OutbreakStatus.Winning;
   }
   return undefined;
+};
+
+export const getCSSClassFor = (status: OutbreakStatus | undefined) => {
+  if (status === OutbreakStatus.None) {
+    return 'none';
+  } if (status === OutbreakStatus.Small) {
+    return 'small';
+  } if (status === OutbreakStatus.Losing) {
+    return 'losing';
+  } if (status === OutbreakStatus.Flattening) {
+    return 'flattening';
+  } if (status === OutbreakStatus.Crushing) {
+    return 'crushing';
+  } if (status === OutbreakStatus.Winning) {
+    return 'winning';
+  } if (status === OutbreakStatus.Won) {
+    return 'won';
+  }
+  return '';
 };
 
 const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
@@ -73,13 +93,18 @@ const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
       const previousNewDeaths = deathCounts[index + 1] - deathCounts[index + 2];
       const currentNewDeaths = currentDeathCount - deathCounts[index + 1];
       const growthRate = ((currentNewDeaths - previousNewDeaths) / previousNewDeaths) * 100;
-      const currentStatus = periodStatus(currentDeathCount, currentNewDeaths, growthRate);
+      const currentStatus = periodStatus(
+        currentDeathCount,
+        currentNewDeaths,
+        previousNewDeaths,
+        growthRate,
+      );
       return {
         totalDeaths: currentDeathCount,
         newDeaths: currentNewDeaths,
         status: currentStatus,
         growthRate:
-          (currentStatus !== OutbreakStatus.None) && (currentStatus !== OutbreakStatus.Starting)
+          (currentStatus !== OutbreakStatus.None) && (currentStatus !== OutbreakStatus.Small)
             ? Math.round(growthRate * 100) / 100
             : 0,
       };

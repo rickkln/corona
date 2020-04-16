@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
+import { Link } from 'gatsby';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import {
   Countries, countryQuery, calculateData,
 } from '../utilities/getData';
 import { FullTable } from '../components/growthTables';
+import Legend from '../components/legend';
 
 const DataPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
@@ -29,7 +31,12 @@ const DataPage = () => {
   return (
     <Layout>
       <SEO title="All Data" />
-      <h1>Data from all countries</h1>
+      <h1>All Data</h1>
+      <p>
+        Change in death rates, color coded by Outbreak Status.
+        {' '}
+        <Link to="/detail">View Legend</Link>
+      </p>
       <FullTable data={allData} />
     </Layout>
   );

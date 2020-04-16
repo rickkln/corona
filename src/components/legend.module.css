@@ -1,0 +1,40 @@
+
+.legend {
+  font-size: 0.8em;
+}
+.legend p {
+  margin-bottom: 0.6em;
+}
+.legend ul {
+  list-style: none;
+}
+.legend ul li::before {
+  content: "\2022";
+  color: black;
+  font-size: 1.4em;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+.legend ul li.none::before {
+  color: lightgray;
+}
+.legend ul li.small::before {
+  color: lightpink;
+}
+.legend ul li.losing::before {
+  color: lightcoral;
+}
+.legend ul li.flattening::before {
+  color: lightsalmon;
+}
+.legend ul li.crushing::before {
+  color: lightskyblue;
+}
+.legend ul li.winning::before {
+  color: lightgreen;
+}
+.legend ul li.won::before {
+  color: lightseagreen;
+}

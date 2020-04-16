@@ -9,7 +9,6 @@ const AboutPage = () => (
       There are various great Covid-19 tracking and information websites.
       {' '}
       <a href="https://www.endcoronavirus.org/">EndCoronavirus.org</a>
-      {' '}
       , which is backed by the NECSI, being the best one I have found.
       This one aims to provide simple tools for live updates on the rate of change in
       death count globally.

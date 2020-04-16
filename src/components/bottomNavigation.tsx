@@ -21,9 +21,9 @@ const BottomNavigation = () => (
       </p>
       <p>Data</p>
     </Link>
-    <Link to="/detail" className={styles.linkStyle} activeStyle={activeStyle}>
+    <Link to="/details" className={styles.linkStyle} activeStyle={activeStyle}>
       <p><IoMdSearch /></p>
-      <p>Detail</p>
+      <p>Details</p>
     </Link>
     <Link to="/about" className={styles.linkStyle} activeStyle={activeStyle}>
       <p><IoIosInformationCircleOutline /></p>

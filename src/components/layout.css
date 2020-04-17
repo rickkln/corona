@@ -618,13 +618,11 @@ pre tt:before,
 pre tt:after {
   content: "";
 }
-
 footer {
   margin: 2.2rem 0 2.2rem;
   text-align: center;
   font-size: 0.8rem;
 }
-
 @media only screen and (max-width: 480px) {
   html {
     font-size: 90%;

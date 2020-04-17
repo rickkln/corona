@@ -44,6 +44,13 @@ export interface Period {
   status: OutbreakStatus | undefined
 }
 
+export interface GlobalSummary {
+  succeeding: number
+  struggling: number
+  small: number
+  none: number
+}
+
 const periodStatus = (
   totalDeaths: number,
   currentNewDeaths: number,
@@ -154,4 +161,36 @@ export const sumPeriodData = (countries: Country[]): Country[] => {
     results: [],
     periods: calulatePeriodData(deathCounts),
   }];
+};
+
+export const calculateGlobalSummary = (countries: Country[]): GlobalSummary => {
+  const globalSummary = countries.reduce(
+    (global, country) => {
+      if (
+        country.periods[0].status === OutbreakStatus.Crushing
+        || country.periods[0].status === OutbreakStatus.Winning
+        || country.periods[0].status === OutbreakStatus.Won
+      ) {
+        return { ...global, succeeding: global.succeeding + 1 };
+      } if (
+        country.periods[0].status === OutbreakStatus.Losing
+        || country.periods[0].status === OutbreakStatus.Flattening
+      ) {
+        return { ...global, struggling: global.struggling + 1 };
+      } if (country.periods[0].status === OutbreakStatus.Small) {
+        return { ...global, small: global.small + 1 };
+      } if (
+        country.periods[0].status === OutbreakStatus.None) {
+        return { ...global, none: global.none + 1 };
+      }
+      return global;
+    },
+    {
+      succeeding: 0,
+      struggling: 0,
+      small: 0,
+      none: 0,
+    },
+  );
+  return globalSummary;
 };

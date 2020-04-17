@@ -10,12 +10,12 @@ const AboutPage = () => (
       {' '}
       <a href="https://www.endcoronavirus.org/">EndCoronavirus.org</a>
       , which is backed by the NECSI, being the best one I have found.
-      This one aims to provide simple tools for live updates on the rate of change in
-      death count globally. As well as be a venue for
+      This one aims to provide a simple tool to track global progress in defeating Covid-19,
+      by focusing on the rate of change in death count globally. (As well as being a venue for
       {' '}
       <a href="https://rickkln.com">me</a>
       {' '}
-      to teach myself some things.
+      to teach myself some things.)
     </p>
     <p>
       All data is pulled from the

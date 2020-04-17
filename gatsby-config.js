@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Cornavirus Pandemic Tracker',
+    title: 'Covid-19 Pandemic Status',
     description: 'A simple tool to track global progress in defeating Covid-19.',
     author: '@rickkln',
   },
@@ -18,8 +18,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Corona',
-        short_name: 'corona',
+        name: 'Covid-19 Pandemic Status',
+        short_name: 'Covid-19 Pandemic',
         start_url: '/',
         background_color: '#202124',
         theme_color: '#202124',

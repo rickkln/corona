@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
+import { Link } from 'gatsby';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import {
   countryQuery, calculateData, sumPeriodData, Countries, OutbreakStatus,
 } from '../utilities/getData';
-import { SummaryTable, FullTable } from '../components/growthTables';
+import { SummaryTable } from '../components/growthTables';
+import { getStatusInfo } from '../components/legend';
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
@@ -33,48 +35,30 @@ const IndexPage = () => {
       </Layout>
     );
   }
-  let BattleStatus;
-  if (globalData[0].periods[0].growthRate > 0) {
-    BattleStatus = (
-      <span>
-        <strong>No</strong>
-        , globally new deaths rose by
-        {' '}
-        <strong>
-          {globalData[0].periods[0].growthRate}
-          %
-        </strong>
-        {' '}
-        in the last 5-day period.
-      </span>
-    );
-  } else {
-    BattleStatus = (
-      <span>
-        <strong>Yes</strong>
-        , globally new deaths fell by
-        {' '}
-        <strong>
-          {globalData[0].periods[0].growthRate}
-          %
-        </strong>
-        {' '}
-        in the last 5-day period.
-      </span>
-    );
-  }
   return (
     <Layout>
       <SEO title="Latest" />
-      <h1>Is the world winning?</h1>
+      <h1>How is the world doing?</h1>
       <div
         style={{
           display: 'flex',
           flexWrap: 'wrap',
         }}
       >
-        <div style={{ flex: 1, minWidth: '300px' }}>
-          { BattleStatus }
+        <div
+          style={{
+            flex: 1,
+            minWidth: '300px',
+            marginBottom: '1.2em',
+          }}
+        >
+          In the last 5 days we&apos;ve
+          {globalData[0].periods[0].status === OutbreakStatus.Won
+            ? ' '
+            : ' been '}
+          {getStatusInfo(globalData[0].periods[0].status)}
+          {' '}
+          <Link to="/details">Status Info</Link>
         </div>
         <div style={{ flex: 1 }}>
           <SummaryTable data={globalData} />
@@ -87,13 +71,29 @@ const IndexPage = () => {
           margin: '0 -1em',
         }}
       >
-        <div style={{ flex: 1, minWidth: '300px', padding: '0 1em' }}>
+        <div
+          style={{
+            flex: 1,
+            minWidth: '300px',
+            padding: '0 1em',
+            textAlign: 'center',
+          }}
+        >
           <h3>Where are we winning?</h3>
           <SummaryTable data={winningData} />
+          <Link to="/data">More Data</Link>
         </div>
-        <div style={{ flex: 1, minWidth: '300px', padding: '0 1em' }}>
+        <div
+          style={{
+            flex: 1,
+            minWidth: '300px',
+            padding: '0 1em',
+            textAlign: 'center',
+          }}
+        >
           <h3>Where are we losing?</h3>
           <SummaryTable data={losingData} />
+          <Link to="/data">More Data</Link>
         </div>
       </div>
     </Layout>

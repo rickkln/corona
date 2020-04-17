@@ -1,13 +1,11 @@
 import React from 'react';
-import { OutbreakStatus, getCSSClassFor } from '../utilities/getData';
+import { OutbreakStatus } from '../utilities/getData';
 import styles from './legend.module.css';
 
-const Legend = () => (
-  <div className={styles.legend}>
-    <h3>Legend</h3>
-    <p>The items below all refer to a given 5 day period, unless otherwise stated.</p>
-    <ul>
-      <li className={styles.none}>
+export const getStatusInfo = (status: OutbreakStatus | undefined) => {
+  if (status === OutbreakStatus.None) {
+    return (
+      <span>
         <strong>
           {OutbreakStatus.None}
           :
@@ -17,8 +15,12 @@ const Legend = () => (
         {' '}
         <strong>no deaths</strong>
         .
-      </li>
-      <li className={styles.small}>
+        {' '}
+      </span>
+    );
+  } if (status === OutbreakStatus.Small) {
+    return (
+      <span>
         <strong>
           {OutbreakStatus.Small}
           :
@@ -28,8 +30,11 @@ const Legend = () => (
         {' '}
         <strong>less than 10 deaths</strong>
         .
-      </li>
-      <li className={styles.losing}>
+      </span>
+    );
+  } if (status === OutbreakStatus.Losing) {
+    return (
+      <span>
         <strong>
           {OutbreakStatus.Losing}
           :
@@ -39,9 +44,12 @@ const Legend = () => (
         {' '}
         <strong>100% or more</strong>
         {' '}
-        (Deaths are doubling, or worse, every 5 days).
-      </li>
-      <li className={styles.flattening}>
+        (Doubled or worse).
+      </span>
+    );
+  } if (status === OutbreakStatus.Flattening) {
+    return (
+      <span>
         <strong>
           {OutbreakStatus.Flattening}
           :
@@ -55,8 +63,11 @@ const Legend = () => (
         {' '}
         <strong>stay above 100</strong>
         .
-      </li>
-      <li className={styles.crushing}>
+      </span>
+    );
+  } if (status === OutbreakStatus.Crushing) {
+    return (
+      <span>
         <strong>
           {OutbreakStatus.Crushing}
           :
@@ -70,8 +81,11 @@ const Legend = () => (
         {' '}
         <strong>to below 100</strong>
         .
-      </li>
-      <li className={styles.winning}>
+      </span>
+    );
+  } if (status === OutbreakStatus.Winning) {
+    return (
+      <span>
         <strong>
           {OutbreakStatus.Winning}
           :
@@ -81,8 +95,11 @@ const Legend = () => (
         {' '}
         <strong>below 10</strong>
         .
-      </li>
-      <li className={styles.won}>
+      </span>
+    );
+  } if (status === OutbreakStatus.Won) {
+    return (
+      <span>
         <strong>
           {OutbreakStatus.Won}
           :
@@ -93,6 +110,37 @@ const Legend = () => (
         <strong>no new deaths</strong>
         {' '}
         for 10 days.
+      </span>
+    );
+  }
+  return '';
+};
+
+const Legend = () => (
+  <div className={styles.legend}>
+    <h3>Legend</h3>
+    <p>The items below all refer to a given 5 day period, unless otherwise stated.</p>
+    <ul>
+      <li className={styles.none}>
+        {getStatusInfo(OutbreakStatus.None)}
+      </li>
+      <li className={styles.small}>
+        {getStatusInfo(OutbreakStatus.Small)}
+      </li>
+      <li className={styles.losing}>
+        {getStatusInfo(OutbreakStatus.Losing)}
+      </li>
+      <li className={styles.flattening}>
+        {getStatusInfo(OutbreakStatus.Flattening)}
+      </li>
+      <li className={styles.crushing}>
+        {getStatusInfo(OutbreakStatus.Crushing)}
+      </li>
+      <li className={styles.winning}>
+        {getStatusInfo(OutbreakStatus.Winning)}
+      </li>
+      <li className={styles.won}>
+        {getStatusInfo(OutbreakStatus.Won)}
       </li>
     </ul>
   </div>

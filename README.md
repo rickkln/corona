@@ -5,13 +5,13 @@
 </p>
 
 <h1 align="center">
-  Coronavirus Pandemic Status
+  Covid-19 Pandemic Status
 </h1>
 
 There are various great Covid-19 tracking and information websites. [EndCoronavirus.org](https://www.endcoronavirus.org/), which is backed by the NECSI, being the best one I have found.
 
-This one aims to provide simple tools for live updates on the rate of change in
-death count globally. Though it is mainly a venue for [me](https://rickkln.com) to play around with and learn GraphQL and React-Table among other things.
+This one aims to provide a simple tool to track global progress in defeating Covid-19,
+by focusing on the rate of change in death count globally. Though it is mainly a venue for [me](https://rickkln.com) to play around with and learn GraphQL and React-Table among other things.
 All data is pulled from the [COVID-19 data repository](https://github.com/CSSEGISandData/COVID-19) provided by Johns Hopkins University.
 Which in turn pulls data from various government sources, and tracking projects such as [WorldoMeters](https://www.worldometers.info/coronavirus).
 

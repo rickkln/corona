@@ -54,7 +54,7 @@ const Header = () => (
               verticalAlign: 'center',
             }}
           >
-            Coronavirus
+            Covid-19
             <br />
             Pandemic Status
           </h3>

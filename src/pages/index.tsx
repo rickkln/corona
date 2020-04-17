@@ -6,7 +6,7 @@ import SEO from '../components/seo';
 import {
   countryQuery, calculateData, sumPeriodData, Countries, OutbreakStatus,
 } from '../utilities/getData';
-import { SummaryTable } from '../components/growthTables';
+import { GrowthSummaryTable } from '../components/tables';
 import { getStatusInfo } from '../components/legend';
 
 const IndexPage = () => {
@@ -61,7 +61,7 @@ const IndexPage = () => {
           <Link to="/details">Status Info</Link>
         </div>
         <div style={{ flex: 1 }}>
-          <SummaryTable data={globalData} />
+          <GrowthSummaryTable data={globalData} />
         </div>
       </div>
       <div
@@ -80,7 +80,7 @@ const IndexPage = () => {
           }}
         >
           <h3>Where are we winning?</h3>
-          <SummaryTable data={winningData} />
+          <GrowthSummaryTable data={winningData} />
           <Link to="/data">More Data</Link>
         </div>
         <div
@@ -92,7 +92,7 @@ const IndexPage = () => {
           }}
         >
           <h3>Where are we losing?</h3>
-          <SummaryTable data={losingData} />
+          <GrowthSummaryTable data={losingData} />
           <Link to="/data">More Data</Link>
         </div>
       </div>

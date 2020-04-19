@@ -118,7 +118,7 @@ export const getStatusInfo = (status: OutbreakStatus | undefined) => {
 
 const Legend = () => (
   <div className={styles.legend}>
-    <h3>Legend</h3>
+    <h2>Legend</h2>
     <p>The items below all refer to a given 5 day period, unless otherwise stated.</p>
     <ul>
       <li className={styles.none}>

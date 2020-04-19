@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 
@@ -6,16 +7,8 @@ const AboutPage = () => (
   <Layout>
     <SEO title="About" />
     <p>
-      There are various great Covid-19 tracking and information websites.
-      {' '}
-      <a href="https://www.endcoronavirus.org/">EndCoronavirus.org</a>
-      , which is backed by the NECSI, being the best one I have found.
-      This one aims to provide a simple tool to track global progress in defeating Covid-19,
-      by focusing on the rate of change in death count globally. (As well as being a venue for
-      {' '}
-      <a href="https://rickkln.com">me</a>
-      {' '}
-      to teach myself some things.)
+      This site aims to provide a simple tool to track global progress in defeating Covid-19,
+      by focusing on the rate of change in death count globally.
     </p>
     <p>
       All data is pulled from the
@@ -27,8 +20,6 @@ const AboutPage = () => (
       {' '}
       <a href="https://www.worldometers.info/coronavirus">WorldoMeters</a>
       .
-    </p>
-    <p>
       All code for this site is
       {' '}
       <a href="https://github.com/rickkln/corona">open source</a>
@@ -43,6 +34,16 @@ const AboutPage = () => (
       API which in turn wraps a another
       {' '}
       <a href="https://github.com/pomber/covid19">parser</a>
+      .
+    </p>
+    <p>
+      There are various other great Covid-19 tracking and information websites.
+      {' '}
+      <a href="https://www.endcoronavirus.org/">EndCoronavirus.org</a>
+      , which is backed by the NECSI, being the best one I have found.
+      For a full list of recommended resources view
+      {' '}
+      <Link to="/details">Details</Link>
       .
     </p>
   </Layout>

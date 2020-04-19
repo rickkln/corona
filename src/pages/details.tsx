@@ -35,6 +35,7 @@ const DetailsPage = () => (
       <li><a href="https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca">Act today or people will die - Tomas Pueyo</a></li>
       <li><a href="https://medium.com/@tomaspueyo/coronavirus-the-hammer-and-the-dance-be9337092b56">The hammer and the dance - Tomas Pueyo</a></li>
       <li><a href="https://medium.com/@tomaspueyo/coronavirus-out-of-many-one-36b886af37e9">Out of many one - Tomas Pueyo</a></li>
+      <li><a href="https://www.nakedcapitalism.com/2020/04/taleb-the-only-man-who-has-a-clue.html">Taleb: The Only Man Who Has A Clue - Yves Smith</a></li>
     </ul>
   </Layout>
 );

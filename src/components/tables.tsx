@@ -5,13 +5,8 @@ import {
 import styles from './tables.module.css';
 import Table from './table';
 import {
-  Country, Period, OutbreakStatus, getCSSClassFor,
+  Country, Period, OutbreakStatus, getCSSClassFor, getPeriodName,
 } from '../utilities/getData';
-
-const getPeriodName = (endingDaysAgo: number) => {
-  const endDate = new Date(new Date().setDate(new Date().getDate() - endingDaysAgo));
-  return `${endDate.getDate()}/${endDate.getMonth() + 1}`;
-};
 
 const formatCell = (period: Period) => {
   const className = getCSSClassFor(period.status);

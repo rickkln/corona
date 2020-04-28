@@ -13,12 +13,14 @@ import {
 } from '../utilities/getData';
 import { GrowthSummaryTable } from '../components/tables';
 import { getStatusInfo } from '../components/legend';
+import SummaryChart from '../components/summaryChart';
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
   const allData = useMemo(() => calculateData(data), [data]);
   const globalData = sumPeriodData(allData);
   const globalSummaryData = calculateGlobalSummary(allData);
+  globalSummaryData.reverse();
   const losingData = allData.filter(
     (country) => country.periods[0].status === OutbreakStatus.Losing,
   );
@@ -75,44 +77,8 @@ const IndexPage = () => {
           marginTop: '1.2rem',
         }}
       >
-        <h3>How many countries are succeeding?</h3>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            rowGap: '1em',
-            marginBottom: '1.4em',
-          }}
-        >
-          <div>
-            <h4 style={{ marginBottom: 0 }}>
-              Succeeding:
-              {' '}
-              {globalSummaryData.succeeding}
-            </h4>
-            <small>Crushing the Curve, Winning, or Won</small>
-            <h4 style={{ margin: '0.6rem 0 0' }}>
-              Struggling:
-              {' '}
-              {globalSummaryData.struggling}
-            </h4>
-            <small>Losing, or just Flattening the Curve</small>
-          </div>
-          <div>
-            <h4 style={{ marginBottom: 0 }}>
-              Small Outbreak:
-              {' '}
-              {globalSummaryData.small}
-            </h4>
-            <small>Just started, or quickly contained</small>
-            <h4 style={{ margin: '0.6rem 0 0' }}>
-              No Outbreak:
-              {' '}
-              {globalSummaryData.none}
-            </h4>
-            <small>No deaths</small>
-          </div>
-        </div>
+        <h3 style={{ marginBottom: 0 }}>How many countries are succeeding?</h3>
+        <SummaryChart data={globalSummaryData} />
       </div>
       <div
         style={{

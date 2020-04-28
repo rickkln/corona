@@ -12,6 +12,9 @@ export const countryQuery = gql`
   }
 `;
 
+const PERIOD_COUNT = 18;
+const PERIOD_LENGTH = 5;
+
 export interface Countries {
   countries?: Country[];
 }
@@ -44,7 +47,7 @@ export interface Period {
   status: OutbreakStatus | undefined
 }
 
-export interface GlobalSummary {
+export interface PeriodSummary {
   succeeding: number
   struggling: number
   small: number
@@ -94,6 +97,11 @@ export const getCSSClassFor = (status: OutbreakStatus | undefined) => {
   return '';
 };
 
+export const getPeriodName = (endingDaysAgo: number) => {
+  const endDate = new Date(new Date().setDate(new Date().getDate() - endingDaysAgo));
+  return `${endDate.getDate()}/${endDate.getMonth() + 1}`;
+};
+
 const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
   .map((currentDeathCount, index, array) => {
     if (index < (array.length - 1)) {
@@ -129,16 +137,16 @@ const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
 export const calculateData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }
   return data?.countries?.map((country) => {
-    const deathCounts: number[] = Array(8).fill(0);
+    const deathCounts: number[] = Array(PERIOD_COUNT).fill(0);
     country?.results?.forEach((result) => {
       if (!result?.date) { return; }
       const millisecondsAgo = new Date().valueOf() - new Date(result?.date).valueOf();
       const daysAgo = Math.floor((millisecondsAgo) / (1000 * 60 * 60 * 24));
-      // We're looking at six 5-day periods over the last month
-      // We include two extra preceeding period for calculations
+      // We're looking at an amount of periods defined by PERIOD_COUNT
+      // each with an amount of days defined by PERIOD_LENGTH
       // We ignore today as it has incomplete data
-      if (daysAgo <= 40 && daysAgo >= 1) {
-        deathCounts[Math.round(daysAgo / 5) - 1] = result?.deaths ?? 0;
+      if (daysAgo <= (PERIOD_COUNT * PERIOD_LENGTH) && daysAgo >= 1) {
+        deathCounts[Math.round(daysAgo / PERIOD_LENGTH) - 1] = result?.deaths ?? 0;
       }
     });
     const periods = calulatePeriodData(deathCounts);
@@ -154,7 +162,7 @@ export const sumPeriodData = (countries: Country[]): Country[] => {
     (global, country) => global.map(
       (totalDeaths, index) => totalDeaths + country.periods[index].totalDeaths,
     ),
-    Array(8).fill(0),
+    Array(PERIOD_COUNT).fill(0),
   );
   return [{
     name: '',
@@ -163,34 +171,42 @@ export const sumPeriodData = (countries: Country[]): Country[] => {
   }];
 };
 
-export const calculateGlobalSummary = (countries: Country[]): GlobalSummary => {
-  const globalSummary = countries.reduce(
-    (global, country) => {
-      if (
-        country.periods[0].status === OutbreakStatus.Crushing
-        || country.periods[0].status === OutbreakStatus.Winning
-        || country.periods[0].status === OutbreakStatus.Won
-      ) {
-        return { ...global, succeeding: global.succeeding + 1 };
-      } if (
-        country.periods[0].status === OutbreakStatus.Losing
-        || country.periods[0].status === OutbreakStatus.Flattening
-      ) {
-        return { ...global, struggling: global.struggling + 1 };
-      } if (country.periods[0].status === OutbreakStatus.Small) {
-        return { ...global, small: global.small + 1 };
-      } if (
-        country.periods[0].status === OutbreakStatus.None) {
-        return { ...global, none: global.none + 1 };
-      }
-      return global;
-    },
-    {
+export const calculateGlobalSummary = (countries: Country[]): PeriodSummary[] => {
+  const initialPeriodSummaries: PeriodSummary[] = Array.from(
+    { length: PERIOD_COUNT - 2 },
+    (_value, index) => ({
+      date: getPeriodName(1 + index * PERIOD_LENGTH),
       succeeding: 0,
       struggling: 0,
       small: 0,
       none: 0,
-    },
+    }),
   );
-  return globalSummary;
+  return countries.reduce(
+    (globalPeriods, country) => globalPeriods.reduce(
+      (globalPeriodsInner, _currentPeriod, periodIndex) => {
+        const newGlobalPeriods = globalPeriodsInner;
+        if (
+          country.periods[periodIndex].status === OutbreakStatus.Crushing
+          || country.periods[periodIndex].status === OutbreakStatus.Winning
+          || country.periods[periodIndex].status === OutbreakStatus.Won
+        ) {
+          newGlobalPeriods[periodIndex].succeeding += 1;
+        } if (
+          country.periods[periodIndex].status === OutbreakStatus.Losing
+          || country.periods[periodIndex].status === OutbreakStatus.Flattening
+        ) {
+          newGlobalPeriods[periodIndex].struggling += 1;
+        } if (country.periods[periodIndex].status === OutbreakStatus.Small) {
+          newGlobalPeriods[periodIndex].small += 1;
+        } if (
+          country.periods[periodIndex].status === OutbreakStatus.None) {
+          newGlobalPeriods[periodIndex].none += 1;
+        }
+        return newGlobalPeriods;
+      },
+      globalPeriods,
+    ),
+    initialPeriodSummaries,
+  );
 };

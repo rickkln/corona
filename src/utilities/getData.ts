@@ -13,8 +13,13 @@ export const countryQuery = gql`
   }
 `;
 
-const PERIOD_COUNT = 18;
+const getDaysAgo = (date: Date): number => {
+  const millisecondsAgo = new Date().valueOf() - new Date(date).valueOf();
+  return Math.floor((millisecondsAgo) / (1000 * 60 * 60 * 24));
+};
+
 const PERIOD_LENGTH = 5;
+const PERIOD_COUNT = Math.floor(getDaysAgo(new Date('2020/01/07')) / PERIOD_LENGTH);
 
 export interface Countries {
   countries?: Country[];
@@ -160,8 +165,7 @@ export const calculateData = (data: Countries | undefined): Country[] => {
     );
     country?.results?.forEach((result) => {
       if (!result?.date) { return; }
-      const millisecondsAgo = new Date().valueOf() - new Date(result?.date).valueOf();
-      const daysAgo = Math.floor((millisecondsAgo) / (1000 * 60 * 60 * 24));
+      const daysAgo = getDaysAgo(new Date(result?.date));
       // We're looking at an amount of periods defined by PERIOD_COUNT
       // each with an amount of days defined by PERIOD_LENGTH
       // We ignore today as it has incomplete data

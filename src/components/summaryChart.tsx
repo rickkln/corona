@@ -12,34 +12,31 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     domainPadding={{ y: 30 }}
   >
     <VictoryLegend
-      x={110}
+      x={60}
       y={15}
       itemsPerRow={2}
       gutter={20}
+      style={{
+        labels: { fontSize: 12 },
+      }}
       data={[
-        { name: 'No Outbreak', symbol: { fill: 'darkgrey' } },
+        { name: 'No Outbreak', symbol: { fill: 'lightgray' } },
         { name: 'Small Outbreak', symbol: { fill: 'lightpink' } },
-        { name: 'Losing, or just Flattening the Curve', symbol: { fill: 'lightcoral' } },
-        { name: 'Crushing the Curve, Winning, or Won', symbol: { fill: 'lightseagreen' } },
+        { name: 'Losing', symbol: { fill: 'lightcoral' } },
+        { name: 'Flattening the Curve', symbol: { fill: 'lightsalmon' } },
+        { name: 'Crushing the Curve', symbol: { fill: 'lightskyblue' } },
+        { name: 'Winning', symbol: { fill: 'lightgreen' } },
+        { name: 'Won', symbol: { fill: 'lightseagreen' } },
       ]}
     />
     <VictoryLine
       data={data}
       style={{
-        data: { stroke: 'lightseagreen' },
+        data: { stroke: 'lightgray' },
         parent: { border: '1px solid #ccc' },
       }}
       x="date"
-      y="succeeding"
-    />
-    <VictoryLine
-      data={data}
-      style={{
-        data: { stroke: 'lightcoral' },
-        parent: { border: '1px solid #ccc' },
-      }}
-      x="date"
-      y="struggling"
+      y="none"
     />
     <VictoryLine
       data={data}
@@ -53,11 +50,47 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     <VictoryLine
       data={data}
       style={{
-        data: { stroke: 'darkgrey' },
+        data: { stroke: 'lightcoral' },
         parent: { border: '1px solid #ccc' },
       }}
       x="date"
-      y="none"
+      y="losing"
+    />
+    <VictoryLine
+      data={data}
+      style={{
+        data: { stroke: 'lightsalmon' },
+        parent: { border: '1px solid #ccc' },
+      }}
+      x="date"
+      y="flattening"
+    />
+    <VictoryLine
+      data={data}
+      style={{
+        data: { stroke: 'lightskyblue' },
+        parent: { border: '1px solid #ccc' },
+      }}
+      x="date"
+      y="crushing"
+    />
+    <VictoryLine
+      data={data}
+      style={{
+        data: { stroke: 'lightgreen' },
+        parent: { border: '1px solid #ccc' },
+      }}
+      x="date"
+      y="winning"
+    />
+    <VictoryLine
+      data={data}
+      style={{
+        data: { stroke: 'lightseagreen' },
+        parent: { border: '1px solid #ccc' },
+      }}
+      x="date"
+      y="won"
     />
   </VictoryChart>
 );

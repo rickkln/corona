@@ -62,10 +62,13 @@ export interface Period {
 }
 
 export interface PeriodSummary {
-  succeeding: number
-  struggling: number
-  small: number
   none: number
+  small: number
+  losing: number
+  flattening: number
+  crushing: number
+  winning: number
+  won: number
 }
 
 const periodStatus = (
@@ -212,32 +215,33 @@ export const calculateGlobalSummary = (countries: Country[]): PeriodSummary[] =>
     { length: PERIOD_COUNT - 2 },
     (_value, index) => ({
       date: getPeriodName(1 + index * PERIOD_LENGTH),
-      succeeding: 0,
-      struggling: 0,
-      small: 0,
       none: 0,
+      small: 0,
+      losing: 0,
+      flattening: 0,
+      crushing: 0,
+      winning: 0,
+      won: 0,
     }),
   );
   return countries.reduce(
     (globalPeriods, country) => globalPeriods.reduce(
       (globalPeriodsInner, _currentPeriod, periodIndex) => {
         const newGlobalPeriods = globalPeriodsInner;
-        if (
-          country.periods[periodIndex].status === OutbreakStatus.Crushing
-          || country.periods[periodIndex].status === OutbreakStatus.Winning
-          || country.periods[periodIndex].status === OutbreakStatus.Won
-        ) {
-          newGlobalPeriods[periodIndex].succeeding += 1;
-        } if (
-          country.periods[periodIndex].status === OutbreakStatus.Losing
-          || country.periods[periodIndex].status === OutbreakStatus.Flattening
-        ) {
-          newGlobalPeriods[periodIndex].struggling += 1;
+        if (country.periods[periodIndex].status === OutbreakStatus.None) {
+          newGlobalPeriods[periodIndex].none += 1;
         } if (country.periods[periodIndex].status === OutbreakStatus.Small) {
           newGlobalPeriods[periodIndex].small += 1;
-        } if (
-          country.periods[periodIndex].status === OutbreakStatus.None) {
-          newGlobalPeriods[periodIndex].none += 1;
+        } if (country.periods[periodIndex].status === OutbreakStatus.Losing) {
+          newGlobalPeriods[periodIndex].losing += 1;
+        } if (country.periods[periodIndex].status === OutbreakStatus.Flattening) {
+          newGlobalPeriods[periodIndex].flattening += 1;
+        } if (country.periods[periodIndex].status === OutbreakStatus.Crushing) {
+          newGlobalPeriods[periodIndex].crushing += 1;
+        } if (country.periods[periodIndex].status === OutbreakStatus.Winning) {
+          newGlobalPeriods[periodIndex].winning += 1;
+        } if (country.periods[periodIndex].status === OutbreakStatus.Won) {
+          newGlobalPeriods[periodIndex].won += 1;
         }
         return newGlobalPeriods;
       },

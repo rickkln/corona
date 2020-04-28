@@ -77,7 +77,7 @@ const IndexPage = () => {
           marginTop: '1.2rem',
         }}
       >
-        <h3 style={{ marginBottom: 0 }}>How many countries are succeeding?</h3>
+        <h3 style={{ marginBottom: '0.8rem' }}>How many places are winning?</h3>
         <SummaryChart data={globalSummaryData} />
       </div>
       <div

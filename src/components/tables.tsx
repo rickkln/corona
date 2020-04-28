@@ -20,6 +20,18 @@ const formatCell = (period: Period) => {
   return { value: `${period.growthRate.toString()}%`, className };
 };
 
+const totalCasesSort = (
+  rowA: Row,
+  rowB: Row,
+  columnId: IdType<String>,
+) => rowA.values[columnId].totalCases - rowB.values[columnId].totalCases;
+
+const newCasesSort = (
+  rowA: Row,
+  rowB: Row,
+  columnId: IdType<String>,
+) => rowA.values[columnId].newCases - rowB.values[columnId].newCases;
+
 const totalDeathsSort = (
   rowA: Row,
   rowB: Row,
@@ -38,6 +50,144 @@ const growthSort = (
   columnId: IdType<String>,
 ) => rowA.values[columnId].growthRate - rowB.values[columnId].growthRate;
 
+export const TotalCasesTable = ({ data }: { data: Country[] }) => {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Country',
+      accessor: 'name',
+    },
+    {
+      Header: getPeriodName(26),
+      accessor: 'periods[5]',
+      Cell: ({ value }: { value: Period }) => value.totalCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: totalCasesSort,
+    },
+    {
+      Header: getPeriodName(21),
+      accessor: 'periods[4]',
+      Cell: ({ value }: { value: Period }) => value.totalCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: totalCasesSort,
+    },
+    {
+      Header: getPeriodName(16),
+      accessor: 'periods[3]',
+      Cell: ({ value }: { value: Period }) => value.totalCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: totalCasesSort,
+    },
+    {
+      Header: getPeriodName(11),
+      accessor: 'periods[2]',
+      Cell: ({ value }: { value: Period }) => value.totalCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: totalCasesSort,
+    },
+    {
+      Header: getPeriodName(6),
+      accessor: 'periods[1]',
+      Cell: ({ value }: { value: Period }) => value.totalCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: totalCasesSort,
+    },
+    {
+      Header: getPeriodName(1),
+      accessor: 'periods[0]',
+      Cell: ({ value }: { value: Period }) => value.totalCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: totalCasesSort,
+    },
+  ], []);
+
+  const initialState = React.useMemo(() => ({
+    sortBy: [{ id: 'name' }],
+  }), []);
+
+  const table = useTable({ columns, data, initialState }, useSortBy);
+
+  return (
+    <div className={styles.fullTable}>
+      <Table table={table} />
+    </div>
+  );
+};
+
+export const NewCasesTable = ({ data }: { data: Country[] }) => {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Country',
+      accessor: 'name',
+    },
+    {
+      Header: getPeriodName(26),
+      accessor: 'periods[5]',
+      Cell: ({ value }: { value: Period }) => value.newCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: newCasesSort,
+    },
+    {
+      Header: getPeriodName(21),
+      accessor: 'periods[4]',
+      Cell: ({ value }: { value: Period }) => value.newCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: newCasesSort,
+    },
+    {
+      Header: getPeriodName(16),
+      accessor: 'periods[3]',
+      Cell: ({ value }: { value: Period }) => value.newCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: newCasesSort,
+    },
+    {
+      Header: getPeriodName(11),
+      accessor: 'periods[2]',
+      Cell: ({ value }: { value: Period }) => value.newCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: newCasesSort,
+    },
+    {
+      Header: getPeriodName(6),
+      accessor: 'periods[1]',
+      Cell: ({ value }: { value: Period }) => value.newCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: newCasesSort,
+    },
+    {
+      Header: getPeriodName(1),
+      accessor: 'periods[0]',
+      Cell: ({ value }: { value: Period }) => value.newCases
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      getClassName: (period: Period) => formatCell(period).className,
+      sortType: newCasesSort,
+    },
+  ], []);
+
+  const initialState = React.useMemo(() => ({
+    sortBy: [{ id: 'name' }],
+  }), []);
+
+  const table = useTable({ columns, data, initialState }, useSortBy);
+
+  return (
+    <div className={styles.fullTable}>
+      <Table table={table} />
+    </div>
+  );
+};
+
 export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
   const columns = React.useMemo(() => [
     {
@@ -47,42 +197,48 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
     {
       Header: getPeriodName(26),
       accessor: 'periods[5]',
-      Cell: ({ value }: { value: Period }) => value.totalDeaths,
+      Cell: ({ value }: { value: Period }) => value.totalDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: totalDeathsSort,
     },
     {
       Header: getPeriodName(21),
       accessor: 'periods[4]',
-      Cell: ({ value }: { value: Period }) => value.totalDeaths,
+      Cell: ({ value }: { value: Period }) => value.totalDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: totalDeathsSort,
     },
     {
       Header: getPeriodName(16),
       accessor: 'periods[3]',
-      Cell: ({ value }: { value: Period }) => value.totalDeaths,
+      Cell: ({ value }: { value: Period }) => value.totalDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: totalDeathsSort,
     },
     {
       Header: getPeriodName(11),
       accessor: 'periods[2]',
-      Cell: ({ value }: { value: Period }) => value.totalDeaths,
+      Cell: ({ value }: { value: Period }) => value.totalDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: totalDeathsSort,
     },
     {
       Header: getPeriodName(6),
       accessor: 'periods[1]',
-      Cell: ({ value }: { value: Period }) => value.totalDeaths,
+      Cell: ({ value }: { value: Period }) => value.totalDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: totalDeathsSort,
     },
     {
       Header: getPeriodName(1),
       accessor: 'periods[0]',
-      Cell: ({ value }: { value: Period }) => value.totalDeaths,
+      Cell: ({ value }: { value: Period }) => value.totalDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: totalDeathsSort,
     },
@@ -110,42 +266,48 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
     {
       Header: getPeriodName(26),
       accessor: 'periods[5]',
-      Cell: ({ value }: { value: Period }) => value.newDeaths,
+      Cell: ({ value }: { value: Period }) => value.newDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: newDeathsSort,
     },
     {
       Header: getPeriodName(21),
       accessor: 'periods[4]',
-      Cell: ({ value }: { value: Period }) => value.newDeaths,
+      Cell: ({ value }: { value: Period }) => value.newDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: newDeathsSort,
     },
     {
       Header: getPeriodName(16),
       accessor: 'periods[3]',
-      Cell: ({ value }: { value: Period }) => value.newDeaths,
+      Cell: ({ value }: { value: Period }) => value.newDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: newDeathsSort,
     },
     {
       Header: getPeriodName(11),
       accessor: 'periods[2]',
-      Cell: ({ value }: { value: Period }) => value.newDeaths,
+      Cell: ({ value }: { value: Period }) => value.newDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: newDeathsSort,
     },
     {
       Header: getPeriodName(6),
       accessor: 'periods[1]',
-      Cell: ({ value }: { value: Period }) => value.newDeaths,
+      Cell: ({ value }: { value: Period }) => value.newDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: newDeathsSort,
     },
     {
       Header: getPeriodName(1),
       accessor: 'periods[0]',
-      Cell: ({ value }: { value: Period }) => value.newDeaths,
+      Cell: ({ value }: { value: Period }) => value.newDeaths
+        .toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       getClassName: (period: Period) => formatCell(period).className,
       sortType: newDeathsSort,
     },

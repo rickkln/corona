@@ -572,7 +572,7 @@ thead {
 td,
 th {
   font-size: 0.65em;
-  text-align: left;
+  text-align: right;
   border-bottom: 1px solid hsla(0, 0%, 0%, 0.12);
   font-feature-settings: "tnum";
   -moz-font-feature-settings: "tnum";
@@ -586,6 +586,7 @@ th {
 th:first-child,
 td:first-child {
   padding-left: 0;
+  text-align: left;
 }
 th:last-child,
 td:last-child {

@@ -6,7 +6,9 @@ import SEO from '../components/seo';
 import {
   Countries, countryQuery, calculateData,
 } from '../utilities/getData';
-import { GrowthTable, NewDeathsTable, TotalDeathsTable } from '../components/tables';
+import {
+  GrowthTable, NewDeathsTable, TotalDeathsTable, NewCasesTable, TotalCasesTable,
+} from '../components/tables';
 
 const buttonStyle: CSSProperties = {
   fontSize: '0.85em',
@@ -27,13 +29,9 @@ const activeStyles: CSSProperties = {
 type Table =
   | 'growth'
   | 'totalDeaths'
-  | 'newDeaths';
-
-const buttonColorForTable = (selectedTable: Table, currentTable: Table) => (
-  selectedTable === currentTable
-    ? 'rgb(40, 197, 60)'
-    : ''
-);
+  | 'newDeaths'
+  | 'totalCases'
+  | 'newCases';
 
 const DataPage = () => {
   const [selectedTable, setSelectedTable] = useState<Table>('growth');
@@ -95,18 +93,46 @@ const DataPage = () => {
       >
         Total Deaths
       </button>
+      <button
+        type="button"
+        style={{
+          ...buttonStyle,
+          ...(selectedTable === 'newCases'
+            ? activeStyles
+            : {}),
+        }}
+        onClick={() => setSelectedTable('newCases')}
+      >
+        New Cases
+      </button>
+      <button
+        type="button"
+        style={{
+          ...buttonStyle,
+          ...(selectedTable === 'totalCases'
+            ? activeStyles
+            : {}),
+        }}
+        onClick={() => setSelectedTable('totalCases')}
+      >
+        Total Cases
+      </button>
       <p>
-        { selectedTable === 'growth' && 'Change in death count.'}
-        { selectedTable === 'newDeaths' && 'New deaths in period.'}
-        { selectedTable === 'totalDeaths' && 'Deaths to date.'}
+        {selectedTable === 'growth' && 'Change in death count.'}
+        {selectedTable === 'newDeaths' && 'New deaths in period.'}
+        {selectedTable === 'totalDeaths' && 'Deaths to date.'}
+        {selectedTable === 'newCases' && 'New cases in period.'}
+        {selectedTable === 'totalCases' && 'Cases to date.'}
         {' '}
         Color coded by
         {' '}
         <Link to="/details">Outbreak Status</Link>
       </p>
-      { selectedTable === 'growth' && <GrowthTable data={allData} />}
-      { selectedTable === 'newDeaths' && <NewDeathsTable data={allData} />}
-      { selectedTable === 'totalDeaths' && <TotalDeathsTable data={allData} />}
+      {selectedTable === 'growth' && <GrowthTable data={allData} />}
+      {selectedTable === 'newDeaths' && <NewDeathsTable data={allData} />}
+      {selectedTable === 'totalDeaths' && <TotalDeathsTable data={allData} />}
+      {selectedTable === 'newCases' && <NewCasesTable data={allData} />}
+      {selectedTable === 'totalCases' && <TotalCasesTable data={allData} />}
     </Layout>
   );
 };

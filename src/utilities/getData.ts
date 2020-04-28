@@ -7,6 +7,7 @@ export const countryQuery = gql`
       results {
         date(format: "yyyy/MM/dd")
         deaths
+        confirmed
       }
     }
   }
@@ -28,6 +29,12 @@ export interface Country {
 interface Result {
   date?: string
   deaths?: number
+  confirmed?: number
+}
+
+interface Counts {
+  deaths: number
+  cases: number
 }
 
 export enum OutbreakStatus {
@@ -44,6 +51,8 @@ export interface Period {
   totalDeaths: number
   newDeaths: number
   growthRate: number
+  totalCases: number
+  newCases: number
   status: OutbreakStatus | undefined
 }
 
@@ -102,22 +111,25 @@ export const getPeriodName = (endingDaysAgo: number) => {
   return `${endDate.getDate()}/${endDate.getMonth() + 1}`;
 };
 
-const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
-  .map((currentDeathCount, index, array) => {
-    if (index < (array.length - 1)) {
-      const previousNewDeaths = deathCounts[index + 1] - deathCounts[index + 2];
-      const currentNewDeaths = currentDeathCount - deathCounts[index + 1];
+const calulatePeriodData = (counts: Counts[]): Period[] => counts
+  .map((currentCounts, index, array) => {
+    if (index < (array.length - 2)) {
+      const previousNewDeaths = counts[index + 1].deaths - counts[index + 2].deaths;
+      const currentNewDeaths = currentCounts.deaths - counts[index + 1].deaths;
       const growthRate = ((currentNewDeaths - previousNewDeaths) / previousNewDeaths) * 100;
+      const currentNewCases = currentCounts.cases - counts[index + 1].cases;
       const currentStatus = periodStatus(
-        currentDeathCount,
+        currentCounts.deaths,
         currentNewDeaths,
         previousNewDeaths,
         growthRate,
       );
       return {
-        totalDeaths: currentDeathCount,
+        totalDeaths: currentCounts.deaths,
         newDeaths: currentNewDeaths,
         status: currentStatus,
+        totalCases: currentCounts.cases,
+        newCases: currentNewCases,
         growthRate:
           (currentStatus !== OutbreakStatus.None) && (currentStatus !== OutbreakStatus.Small)
             ? Math.round(growthRate * 100) / 100
@@ -129,15 +141,23 @@ const calulatePeriodData = (deathCounts: number[]): Period[] => deathCounts
     return {
       totalDeaths: 0,
       newDeaths: 0,
-      status: OutbreakStatus.None,
       growthRate: 0,
+      totalCases: 0,
+      newCases: 0,
+      status: OutbreakStatus.None,
     };
   });
 
 export const calculateData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }
   return data?.countries?.map((country) => {
-    const deathCounts: number[] = Array(PERIOD_COUNT).fill(0);
+    const counts: Counts[] = Array.from(
+      { length: PERIOD_COUNT },
+      () => ({
+        deaths: 0,
+        cases: 0,
+      }),
+    );
     country?.results?.forEach((result) => {
       if (!result?.date) { return; }
       const millisecondsAgo = new Date().valueOf() - new Date(result?.date).valueOf();
@@ -146,10 +166,13 @@ export const calculateData = (data: Countries | undefined): Country[] => {
       // each with an amount of days defined by PERIOD_LENGTH
       // We ignore today as it has incomplete data
       if (daysAgo <= (PERIOD_COUNT * PERIOD_LENGTH) && daysAgo >= 1) {
-        deathCounts[Math.round(daysAgo / PERIOD_LENGTH) - 1] = result?.deaths ?? 0;
+        counts[Math.round(daysAgo / PERIOD_LENGTH) - 1] = {
+          deaths: result?.deaths ?? 0,
+          cases: result?.confirmed ?? 0,
+        };
       }
     });
-    const periods = calulatePeriodData(deathCounts);
+    const periods = calulatePeriodData(counts);
     return {
       ...country,
       periods,
@@ -158,16 +181,25 @@ export const calculateData = (data: Countries | undefined): Country[] => {
 };
 
 export const sumPeriodData = (countries: Country[]): Country[] => {
-  const deathCounts = countries.reduce(
+  const counts = countries.reduce(
     (global, country) => global.map(
-      (totalDeaths, index) => totalDeaths + country.periods[index].totalDeaths,
+      (currentPeriodTotals, index) => ({
+        deaths: currentPeriodTotals.deaths + country.periods[index].totalDeaths,
+        cases: currentPeriodTotals.cases + country.periods[index].totalCases,
+      }),
     ),
-    Array(PERIOD_COUNT).fill(0),
+    Array.from(
+      { length: PERIOD_COUNT },
+      () => ({
+        deaths: 0,
+        cases: 0,
+      }),
+    ),
   );
   return [{
     name: '',
     results: [],
-    periods: calulatePeriodData(deathCounts),
+    periods: calulatePeriodData(counts),
   }];
 };
 

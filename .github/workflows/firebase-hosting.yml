@@ -1,0 +1,24 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches: master
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Build Gatsby Site
+        uses: jzweifel/gatsby-cli-github-action@master
+        with:
+          gatsby-arg: build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

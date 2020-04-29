@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-  VictoryChart, VictoryLegend, VictoryLine, VictoryAxis, VictoryTheme,
+  VictoryChart, VictoryLegend, VictoryLine, VictoryAxis,
 } from 'victory';
 import { PeriodSummary } from '../utilities/getData';
+import Theme from './chartTheme';
 
 const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
   <VictoryChart
-    theme={VictoryTheme.material}
+    theme={Theme}
     height={240}
     width={600}
     minDomain={{ y: 0 }}
@@ -17,9 +18,6 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
       y={15}
       itemsPerRow={2}
       gutter={20}
-      style={{
-        labels: { fontSize: 10 },
-      }}
       data={[
         { name: 'No Outbreak', symbol: { fill: 'lightgray' } },
         { name: 'Small Outbreak', symbol: { fill: 'lightpink' } },

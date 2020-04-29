@@ -179,7 +179,7 @@ textarea {
 }
 ::-webkit-input-placeholder {
   color: inherit;
-  opacity: 0.54;
+  opacity: 0.7;
 }
 ::-webkit-file-upload-button {
   -webkit-appearance: button;

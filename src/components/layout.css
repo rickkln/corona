@@ -588,10 +588,6 @@ td:first-child {
   padding-left: 0;
   text-align: left;
 }
-th:last-child,
-td:last-child {
-  padding-right: 0;
-}
 tt,
 code {
   background-color: hsla(0, 0%, 0%, 0.04);
@@ -623,6 +619,11 @@ footer {
   margin: 2.2rem 0 2.2rem;
   text-align: center;
   font-size: 0.8rem;
+}
+.VictoryContainer {
+  user-select: auto !important;
+  pointer-events: auto !important;
+  touch-action: auto !important;
 }
 @media only screen and (max-width: 480px) {
   html {

@@ -53,6 +53,7 @@ export enum OutbreakStatus {
 }
 
 export interface Period {
+  endDate: string
   totalDeaths: number
   newDeaths: number
   growthRate: number
@@ -62,6 +63,7 @@ export interface Period {
 }
 
 export interface PeriodSummary {
+  endDate: string
   none: number
   small: number
   losing: number
@@ -133,6 +135,7 @@ const calulatePeriodData = (counts: Counts[]): Period[] => counts
         growthRate,
       );
       return {
+        endDate: getPeriodName(1 + index * PERIOD_LENGTH),
         totalDeaths: currentCounts.deaths,
         newDeaths: currentNewDeaths,
         status: currentStatus,
@@ -145,8 +148,9 @@ const calulatePeriodData = (counts: Counts[]): Period[] => counts
       };
     }
     // In this case this is one of the 2 periods periods which we just needed
-    // to calculate the last one
+    // to calculate the last relevant period
     return {
+      endDate: '',
       totalDeaths: 0,
       newDeaths: 0,
       growthRate: 0,
@@ -155,6 +159,7 @@ const calulatePeriodData = (counts: Counts[]): Period[] => counts
       status: OutbreakStatus.None,
     };
   });
+// TODO: Slice off the last two invalid items without affecting global summary calculation
 
 export const calculateData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }
@@ -214,7 +219,7 @@ export const calculateGlobalSummary = (countries: Country[]): PeriodSummary[] =>
   const initialPeriodSummaries: PeriodSummary[] = Array.from(
     { length: PERIOD_COUNT - 2 },
     (_value, index) => ({
-      date: getPeriodName(1 + index * PERIOD_LENGTH),
+      endDate: getPeriodName(1 + index * PERIOD_LENGTH),
       none: 0,
       small: 0,
       losing: 0,

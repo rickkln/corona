@@ -1,23 +1,24 @@
 import React from 'react';
 import {
-  VictoryChart, VictoryLegend, VictoryLine,
+  VictoryChart, VictoryLegend, VictoryLine, VictoryAxis, VictoryTheme,
 } from 'victory';
 import { PeriodSummary } from '../utilities/getData';
 
 const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
   <VictoryChart
+    theme={VictoryTheme.material}
     height={240}
     width={600}
     minDomain={{ y: 0 }}
     domainPadding={{ y: 30 }}
   >
     <VictoryLegend
-      x={60}
+      x={70}
       y={15}
       itemsPerRow={2}
       gutter={20}
       style={{
-        labels: { fontSize: 12 },
+        labels: { fontSize: 10 },
       }}
       data={[
         { name: 'No Outbreak', symbol: { fill: 'lightgray' } },
@@ -29,67 +30,62 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
         { name: 'Won', symbol: { fill: 'lightseagreen' } },
       ]}
     />
+    <VictoryAxis fixLabelOverlap />
+    <VictoryAxis dependentAxis />
     <VictoryLine
       data={data}
       style={{
         data: { stroke: 'lightgray' },
-        parent: { border: '1px solid #ccc' },
       }}
-      x="date"
+      x="endDate"
       y="none"
     />
     <VictoryLine
       data={data}
       style={{
         data: { stroke: 'lightpink' },
-        parent: { border: '1px solid #ccc' },
       }}
-      x="date"
+      x="endDate"
       y="small"
     />
     <VictoryLine
       data={data}
       style={{
         data: { stroke: 'lightcoral' },
-        parent: { border: '1px solid #ccc' },
       }}
-      x="date"
+      x="endDate"
       y="losing"
     />
     <VictoryLine
       data={data}
       style={{
         data: { stroke: 'lightsalmon' },
-        parent: { border: '1px solid #ccc' },
       }}
-      x="date"
+      x="endDate"
       y="flattening"
     />
     <VictoryLine
       data={data}
       style={{
         data: { stroke: 'lightskyblue' },
-        parent: { border: '1px solid #ccc' },
       }}
-      x="date"
+      x="endDate"
       y="crushing"
     />
     <VictoryLine
       data={data}
       style={{
         data: { stroke: 'lightgreen' },
-        parent: { border: '1px solid #ccc' },
       }}
-      x="date"
+      x="endDate"
       y="winning"
     />
     <VictoryLine
       data={data}
       style={{
         data: { stroke: 'lightseagreen' },
-        parent: { border: '1px solid #ccc' },
       }}
-      x="date"
+      x="endDate"
       y="won"
     />
   </VictoryChart>

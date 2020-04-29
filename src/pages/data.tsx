@@ -9,6 +9,7 @@ import {
 import {
   GrowthTable, NewDeathsTable, TotalDeathsTable, NewCasesTable, TotalCasesTable,
 } from '../components/tables';
+import DataChart from '../components/dataChart';
 
 const buttonStyle: CSSProperties = {
   fontSize: '0.85em',
@@ -128,6 +129,12 @@ const DataPage = () => {
         {' '}
         <Link to="/details">Outbreak Status</Link>
       </p>
+      {selectedTable === 'growth' && <DataChart data={allData} x="endDate" y="growthRate" />}
+      {selectedTable === 'newDeaths' && <DataChart data={allData} x="endDate" y="newDeaths" />}
+      {selectedTable === 'totalDeaths' && <DataChart data={allData} x="endDate" y="totalDeaths" />}
+      {selectedTable === 'newCases' && <DataChart data={allData} x="endDate" y="newCases" />}
+      {selectedTable === 'totalCases' && <DataChart data={allData} x="endDate" y="totalCases" />}
+
       {selectedTable === 'growth' && <GrowthTable data={allData} />}
       {selectedTable === 'newDeaths' && <NewDeathsTable data={allData} />}
       {selectedTable === 'totalDeaths' && <TotalDeathsTable data={allData} />}

@@ -132,10 +132,7 @@ const calulatePeriodData = (counts: Counts[]): Period[] => counts
     if (index < (array.length - 2)) {
       const previousNewDeaths = counts[index + 1].deaths - counts[index + 2].deaths;
       const currentNewDeaths = currentCounts.deaths - counts[index + 1].deaths;
-      const rawGrowthRate = ((currentNewDeaths - previousNewDeaths) / previousNewDeaths) * 100;
-      const growthRate = rawGrowthRate > 20000 && rawGrowthRate < Infinity
-        ? 4000
-        : rawGrowthRate;
+      const growthRate = ((currentNewDeaths - previousNewDeaths) / previousNewDeaths) * 100;
       const currentNewCases = currentCounts.cases - counts[index + 1].cases;
       const currentStatus = periodStatus(
         currentCounts.deaths,

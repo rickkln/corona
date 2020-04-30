@@ -17,14 +17,14 @@ import SummaryChart from '../components/summaryChart';
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
-  const allData = useMemo(() => calculateData(data), [data]);
-  const globalData = sumPeriodData(allData);
-  const globalSummaryData = calculateGlobalSummary(allData);
+  const countries = useMemo(() => calculateData(data), [data]);
+  const globalData = sumPeriodData(countries);
+  const globalSummaryData = calculateGlobalSummary(countries);
   globalSummaryData.reverse();
-  const losingData = allData.filter(
+  const losingData = countries.filter(
     (country) => country.periods[0].status === OutbreakStatus.Losing,
   );
-  const winningData = allData.filter(
+  const winningData = countries.filter(
     (country) => country.periods[0].status === OutbreakStatus.Winning,
   );
   if (loading) {

@@ -215,7 +215,7 @@ export const sumPeriodData = (countries: Country[]): Country[] => {
     ),
   );
   return [{
-    name: '',
+    name: 'Global',
     results: [],
     periods: calulatePeriodData(counts),
   }];

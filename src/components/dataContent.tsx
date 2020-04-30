@@ -111,7 +111,7 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
       >
         Total Cases
       </button>
-      <p>
+      <div style={{ marginBottom: '1em' }}>
         {selectedTable === 'growth' && 'Change in death count.'}
         {selectedTable === 'newDeaths' && 'New deaths in period.'}
         {selectedTable === 'totalDeaths' && 'Deaths to date.'}
@@ -130,7 +130,7 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
             className={styles.switch}
           />
         </label>
-      </p>
+      </div>
       <CountryFilter tags={tags} setTags={setTags} />
       {selectedTable === 'growth'
         && <DataChart countries={countries} x="endDate" y="growthRate" tags={tags.currentTags} showAll={showAll} />}

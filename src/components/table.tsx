@@ -13,7 +13,7 @@ declare module 'react-table' {
   }
 }
 
-const SortIcon = ({ isSorted, isSortedDesc }: { isSorted: boolean, isSortedDesc: boolean}) => {
+const SortIcon = ({ isSorted, isSortedDesc }: { isSorted: boolean, isSortedDesc: boolean }) => {
   if (isSorted === undefined) { return null; }
   if (isSorted) {
     return isSortedDesc
@@ -23,7 +23,7 @@ const SortIcon = ({ isSorted, isSortedDesc }: { isSorted: boolean, isSortedDesc:
   return <FaSort />;
 };
 
-const Table = <T extends {}>({ table }: {table: TableInstance<T>}) => (
+const Table = <T extends {}>({ table }: { table: TableInstance<T> }) => (
   <table {...table.getTableProps()}>
     <thead>
       {table.headerGroups.map((headerGroup) => (
@@ -43,7 +43,15 @@ const Table = <T extends {}>({ table }: {table: TableInstance<T>}) => (
       {table.rows.map((row) => {
         table.prepareRow(row);
         return (
-          <tr {...row.getRowProps()}>
+          <tr {...row.getRowProps({
+            style:
+              row.values.name === 'Global'
+                ? {
+                  fontWeight: 'bolder',
+                }
+                : {},
+          })}
+          >
             {row.cells.map((cell) => (
               <td {...cell.getCellProps({ className: cell.column.getClassName?.(cell.value) })}>
                 {cell.render('Cell')}

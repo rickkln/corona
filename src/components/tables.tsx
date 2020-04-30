@@ -20,41 +20,67 @@ const formatCell = (period: Period) => {
   return { value: `${period.growthRate.toString()}%`, className };
 };
 
+const stickyGlobal = (row: Row, desc: boolean, value: number) => {
+  const global = desc
+    ? 1
+    : -1;
+  return row.values.name === 'Global'
+    ? global
+    : value;
+};
+
+const nameSort = (
+  rowA: Row,
+  rowB: Row,
+  columnId: IdType<String>,
+  desc: boolean,
+) => stickyGlobal(rowA, desc, rowA.values[columnId].name - rowB.values[columnId].name);
+
 const totalCasesSort = (
   rowA: Row,
   rowB: Row,
   columnId: IdType<String>,
-) => rowA.values[columnId].totalCases - rowB.values[columnId].totalCases;
+  desc: boolean,
+) => stickyGlobal(rowA, desc, rowA.values[columnId].totalCases - rowB.values[columnId].totalCases);
 
 const newCasesSort = (
   rowA: Row,
   rowB: Row,
   columnId: IdType<String>,
-) => rowA.values[columnId].newCases - rowB.values[columnId].newCases;
+  desc: boolean,
+) => stickyGlobal(rowA, desc, rowA.values[columnId].newCases - rowB.values[columnId].newCases);
 
 const totalDeathsSort = (
   rowA: Row,
   rowB: Row,
   columnId: IdType<String>,
-) => rowA.values[columnId].totalDeaths - rowB.values[columnId].totalDeaths;
+  desc: boolean,
+) => stickyGlobal(
+  rowA,
+  desc,
+  rowA.values[columnId].totalDeaths - rowB.values[columnId].totalDeaths,
+);
 
 const newDeathsSort = (
   rowA: Row,
   rowB: Row,
   columnId: IdType<String>,
-) => rowA.values[columnId].newDeaths - rowB.values[columnId].newDeaths;
+  desc: boolean,
+) => stickyGlobal(rowA, desc, rowA.values[columnId].newDeaths - rowB.values[columnId].newDeaths);
 
 const growthSort = (
   rowA: Row,
   rowB: Row,
   columnId: IdType<String>,
-) => rowA.values[columnId].growthRate - rowB.values[columnId].growthRate;
+  desc: boolean,
+) => stickyGlobal(rowA, desc, rowA.values[columnId].growthRate - rowB.values[columnId].growthRate);
 
 export const TotalCasesTable = ({ data }: { data: Country[] }) => {
   const columns = React.useMemo(() => [
     {
       Header: 'Country',
       accessor: 'name',
+      sortType: nameSort,
     },
     {
       Header: getPeriodName(26),
@@ -124,6 +150,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
     {
       Header: 'Country',
       accessor: 'name',
+      sortType: nameSort,
     },
     {
       Header: getPeriodName(26),
@@ -193,6 +220,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
     {
       Header: 'Country',
       accessor: 'name',
+      sortType: nameSort,
     },
     {
       Header: getPeriodName(26),
@@ -262,6 +290,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
     {
       Header: 'Country',
       accessor: 'name',
+      sortType: nameSort,
     },
     {
       Header: getPeriodName(26),
@@ -331,6 +360,7 @@ export const GrowthTable = ({ data }: { data: Country[] }) => {
     {
       Header: 'Country',
       accessor: 'name',
+      sortType: nameSort,
     },
     {
       Header: getPeriodName(26),
@@ -396,6 +426,7 @@ export const GrowthSummaryTable = ({ data }: { data: Country[] }) => {
         ? [{
           Header: 'Country',
           accessor: 'name',
+          sortType: nameSort,
         }]
         : [];
       return [...country, ...[

@@ -3,13 +3,14 @@ import { useQuery } from '@apollo/client';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import {
-  Countries, countryQuery, calculateData,
+  Countries, countryQuery, calculateData, sumPeriodData,
 } from '../utilities/getData';
 import DataContent from '../components/dataContent';
 
 const DataPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
   const countries = useMemo(() => calculateData(data), [data]);
+  const allData = [...countries, ...sumPeriodData(countries)];
   if (loading) {
     return (
       <Layout>
@@ -27,7 +28,7 @@ const DataPage = () => {
     );
   }
   return (
-    <DataContent countries={countries} />
+    <DataContent countries={allData} />
   );
 };
 

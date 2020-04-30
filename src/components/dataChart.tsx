@@ -62,8 +62,13 @@ const DataChart = ({
         <VictoryAxis fixLabelOverlap />
         <VictoryAxis dependentAxis />
         {countries.map((country) => {
-          if (country.name === undefined) { return undefined; }
-          if (!showAll && !Object.keys(selected).includes(country.name)) { return undefined; }
+          if (
+            country.name === undefined
+            || (!showAll && !Object.keys(selected).includes(country.name))
+            || (country.name === 'Global' && !Object.keys(selected).includes(country.name))
+          ) {
+            return undefined;
+          }
           const data = Object.keys(selected).includes(country.name)
             ? {
               stroke: selected[country.name],

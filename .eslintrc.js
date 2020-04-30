@@ -30,5 +30,9 @@ module.exports = {
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    "jsx-a11y/label-has-associated-control": [2, {
+      "controlComponents": ["Switch"],
+      "depth": 3,
+    }],
   },
 };

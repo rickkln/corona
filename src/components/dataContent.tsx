@@ -1,5 +1,6 @@
 import React, { useState, CSSProperties } from 'react';
 import { Link } from 'gatsby';
+import Switch from 'react-switch';
 import Layout from './layout';
 import SEO from './seo';
 import {
@@ -10,6 +11,7 @@ import {
 } from './tables';
 import DataChart from './dataChart';
 import CountryFilter, { Tags } from './countryFilter';
+import styles from './dataContent.module.css';
 
 const buttonStyle: CSSProperties = {
   fontSize: '0.85em',
@@ -44,6 +46,7 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
     ],
     suggestedTags: possibleTags,
   });
+  const [showAll, setShowAll] = useState(true);
   return (
     <Layout>
       <SEO title="All Data" />
@@ -115,21 +118,35 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
         {selectedTable === 'newCases' && 'New cases in period.'}
         {selectedTable === 'totalCases' && 'Cases to date.'}
         {' '}
-        Table color coded by
-        {' '}
-        <Link to="/details">Outbreak Status</Link>
+        <br />
+        <label>
+          <span>Include all countries</span>
+          <Switch
+            id="showAll"
+            onChange={setShowAll}
+            checked={showAll}
+            onColor="#28c53c"
+            offColor="#ddd"
+            className={styles.switch}
+          />
+        </label>
       </p>
       <CountryFilter tags={tags} setTags={setTags} />
       {selectedTable === 'growth'
-        && <DataChart countries={countries} tags={tags.currentTags} x="endDate" y="growthRate" />}
+        && <DataChart countries={countries} x="endDate" y="growthRate" tags={tags.currentTags} showAll={showAll} />}
       {selectedTable === 'newDeaths'
-        && <DataChart countries={countries} tags={tags.currentTags} x="endDate" y="newDeaths" />}
+        && <DataChart countries={countries} x="endDate" y="newDeaths" tags={tags.currentTags} showAll={showAll} />}
       {selectedTable === 'totalDeaths'
-        && <DataChart countries={countries} tags={tags.currentTags} x="endDate" y="totalDeaths" />}
+        && <DataChart countries={countries} x="endDate" y="totalDeaths" tags={tags.currentTags} showAll={showAll} />}
       {selectedTable === 'newCases'
-        && <DataChart countries={countries} tags={tags.currentTags} x="endDate" y="newCases" />}
+        && <DataChart countries={countries} x="endDate" y="newCases" tags={tags.currentTags} showAll={showAll} />}
       {selectedTable === 'totalCases'
-        && <DataChart countries={countries} tags={tags.currentTags} x="endDate" y="totalCases" />}
+        && <DataChart countries={countries} x="endDate" y="totalCases" tags={tags.currentTags} showAll={showAll} />}
+      <small>
+        The table below is color coded by
+        {' '}
+        <Link to="/details">Outbreak Status</Link>
+      </small>
       {selectedTable === 'growth' && <GrowthTable data={countries} />}
       {selectedTable === 'newDeaths' && <NewDeathsTable data={countries} />}
       {selectedTable === 'totalDeaths' && <TotalDeathsTable data={countries} />}

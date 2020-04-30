@@ -130,6 +130,17 @@ select {
 button,
 html [type="button"] {
   -webkit-appearance: button;
+  border-width: 1px;
+  font-weight: bold;
+  padding: 2px 6px 2px;
+}
+[type="reset"]:hover,
+[type="submit"]:hover,
+button:hover,
+html [type="button"]:hover {
+  font-weight: 900;
+  padding: 1px 5px 1px;
+  border-width: 2px;
 }
 [type="button"]::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,

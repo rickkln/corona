@@ -5,6 +5,9 @@ import {
 import { Tag } from 'react-tag-autocomplete';
 import { Country } from '../utilities/getData';
 import Theme from './chartTheme';
+import {
+  purpleA100, tealA200, cyanA400, deepPurpleA200, lightBlueA700, greenA700, purpleA200, green600, teal400, green900, green700, lightGreen700,
+} from './colors';
 
 interface DataChartProps {
   countries: Country[]
@@ -13,10 +16,28 @@ interface DataChartProps {
   y: string
 }
 
+interface Selected {
+  [key: string]: string
+}
+
+const selectedColors = [
+  cyanA400,
+  deepPurpleA200,
+  teal400,
+  lightBlueA700,
+  purpleA200,
+  lightGreen700,
+];
+
 const DataChart = ({
   countries, tags, x, y,
 }: DataChartProps) => {
-  const selected = tags.map((tag) => tag.name);
+  const selected: Selected = {};
+  tags.forEach(
+    (tag, index) => {
+      selected[tag.name] = selectedColors[index];
+    },
+  );
   return (
     <VictoryChart
       theme={Theme}
@@ -33,14 +54,14 @@ const DataChart = ({
       <VictoryAxis fixLabelOverlap />
       <VictoryAxis dependentAxis />
       {countries.map((country) => {
-        const data = selected.includes(country.name ?? '')
+        if (country.name === undefined) { return undefined; }
+        const data = Object.keys(selected).includes(country.name)
           ? {
-            stroke: 'lightgreen',
+            stroke: selected[country.name],
             strokeWidth: 1.8,
           }
           : {
             strokeWidth: 1,
-            strokeOpacity: 0.2,
           };
         return (
           <VictoryLine

@@ -13,13 +13,35 @@
 .react-tags__selected {
   display: inline;
 }
+.react-tags__selected-tag:before {
+  content: "\2022";
+  margin-right: 3px;
+}
+.react-tags__selected-tag:nth-child(1):before {
+  color: #00e5ff;
+}
+.react-tags__selected-tag:nth-child(2):before {
+  color: #7c4dff;
+}
+.react-tags__selected-tag:nth-child(3):before {
+  color: #26a69a;
+}
+.react-tags__selected-tag:nth-child(4):before {
+  color: #0091ea;
+}
+.react-tags__selected-tag:nth-child(5):before {
+  color: #e040fb;
+}
+.react-tags__selected-tag:nth-child(6):before {
+  color: #689f38;
+}
 
 .react-tags__selected-tag {
   display: inline-block;
   box-sizing: border-box;
   margin: 0.5rem 0.8rem 0.8rem 0rem;
   padding: 0.08em 0.5em 0.16em;
-  border: 1px solid black;
+  border: 1px solid hsla(0, 0%, 0%, 0.8);
   border-radius: 0.4em;
   background: none;
   outline: none;
@@ -32,7 +54,7 @@
 
 .react-tags__selected-tag:after {
   content: '\2715';
-  color: #AAA;
+  color: hsla(0, 0%, 0%, 0.8);
   margin-left: 8px;
 }
 
@@ -40,8 +62,9 @@
 .react-tags__selected-tag:focus {
   font-weight: 900;
 }
-.react-tags__selected-tag:hover:after {
-  color: black;
+.react-tags__selected-tag:hover:after,
+.react-tags__selected-tag:focus:after {
+  content: '✖';
 }
 
 .react-tags__search {

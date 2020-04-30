@@ -15,6 +15,15 @@ const Theme = {
         ...VictoryTheme.material.axis?.style?.tickLabels,
         fontFamily,
         fontSize: 10,
+        fill: 'hsla(0, 0%, 0%, 0.8)',
+      },
+      axis: {
+        ...VictoryTheme.material.axis?.style?.axis,
+        stroke: 'hsla(0, 0%, 0%, 0.8)',
+      },
+      grid: {
+        ...VictoryTheme.material.axis?.style?.grid,
+        stroke: 'hsla(0, 0%, 0%, 0.12)',
       },
     },
   },
@@ -26,6 +35,16 @@ const Theme = {
         ...VictoryTheme.material.legend?.style?.labels,
         fontFamily,
         fontSize: 10,
+      },
+    },
+  },
+  line: {
+    ...VictoryTheme.material.line,
+    style: {
+      ...VictoryTheme.material.line?.style,
+      data: {
+        ...VictoryTheme.material.line?.style?.data,
+        stroke: 'hsla(0, 0%, 0%, 0.2)',
       },
     },
   },

@@ -16,14 +16,13 @@ const buttonStyle: CSSProperties = {
   background: 'none',
   borderColor: 'black',
   borderRadius: '0.4em',
-  fontWeight: 'bold',
-  padding: '0.08em 0.5em 0.16em',
   margin: '0.4rem 0.6rem 1rem 0rem',
   outline: 'none',
 };
 
 const activeStyles: CSSProperties = {
   fontWeight: 900,
+  padding: '1px 5px 1px',
   borderWidth: '2px',
 };
 
@@ -41,6 +40,10 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
     currentTags: [
       { id: 'Spain', name: 'Spain' },
       { id: 'US', name: 'US' },
+      { id: 'Italy', name: 'Italy' },
+      { id: 'France', name: 'France' },
+      { id: 'Brazil', name: 'Brazil' },
+      { id: 'United Kingdom', name: 'United Kingdom' },
     ],
     suggestedTags: possibleTags,
   });

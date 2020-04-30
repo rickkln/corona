@@ -20,7 +20,10 @@ const CountryFilter = ({
     setTags({ ...tags, currentTags });
   };
   const handleAddition = (tag: Tag) => {
-    setTags({ ...tags, currentTags: [...tags.currentTags, tag] });
+    const currentTags = tags.currentTags.length > 5
+      ? tags.currentTags.slice(1)
+      : tags.currentTags;
+    setTags({ ...tags, currentTags: [...currentTags, tag] });
   };
   return (
     <ReactTags

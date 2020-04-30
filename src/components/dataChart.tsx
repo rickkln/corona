@@ -49,7 +49,7 @@ const DataChart = ({
         left: 70,
         right: 3,
       }}
-      domainPadding={{ x: 0, y: [0, 1] }}
+      domainPadding={{ x: [0, -4], y: [0, 1] }}
       minDomain={{ y: 0 }}
     >
       <VictoryAxis fixLabelOverlap />

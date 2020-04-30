@@ -30,7 +30,7 @@ const IndexPage = () => {
   if (loading) {
     return (
       <Layout>
-        <SEO title="Latest" />
+        <SEO title="Status" />
         <p style={{ textAlign: 'center' }}>Loading</p>
       </Layout>
     );
@@ -38,14 +38,14 @@ const IndexPage = () => {
   if (error) {
     return (
       <Layout>
-        <SEO title="Latest" />
+        <SEO title="Status" />
         <p>{error.message}</p>
       </Layout>
     );
   }
   return (
     <Layout>
-      <SEO title="Latest" />
+      <SEO title="Status" />
       <h1>How is the world doing?</h1>
       <div
         style={{

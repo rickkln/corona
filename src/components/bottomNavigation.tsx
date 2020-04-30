@@ -13,7 +13,7 @@ const BottomNavigation = () => (
   <div className={styles.nav}>
     <Link to="/" className={styles.linkStyle} activeStyle={activeStyle}>
       <IoMdGlobe />
-      <div>Latest</div>
+      <div>Status</div>
     </Link>
     <Link to="/data" className={styles.linkStyle} activeStyle={activeStyle}>
       <p>

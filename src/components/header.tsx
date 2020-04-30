@@ -74,7 +74,7 @@ const Header = () => (
               margin: '0',
             }}
           >
-            <Link to="/" style={linkStyle} activeStyle={activeStyle}>Latest</Link>
+            <Link to="/" style={linkStyle} activeStyle={activeStyle}>Status</Link>
             <Link to="/data" style={linkStyle} activeStyle={activeStyle}>Data</Link>
             <Link to="/details" style={linkStyle} activeStyle={activeStyle}>Details</Link>
             <Link to="/about" style={linkStyle} activeStyle={activeStyle}>About</Link>

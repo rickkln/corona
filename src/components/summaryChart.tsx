@@ -32,6 +32,7 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     <VictoryAxis dependentAxis />
     <VictoryLine
       data={data}
+      interpolation="monotoneX"
       style={{
         data: { stroke: 'lightgray' },
       }}
@@ -40,6 +41,7 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     />
     <VictoryLine
       data={data}
+      interpolation="monotoneX"
       style={{
         data: { stroke: 'lightpink' },
       }}
@@ -48,6 +50,7 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     />
     <VictoryLine
       data={data}
+      interpolation="monotoneX"
       style={{
         data: { stroke: 'lightcoral' },
       }}
@@ -56,6 +59,7 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     />
     <VictoryLine
       data={data}
+      interpolation="monotoneX"
       style={{
         data: { stroke: 'lightsalmon' },
       }}
@@ -64,6 +68,7 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     />
     <VictoryLine
       data={data}
+      interpolation="monotoneX"
       style={{
         data: { stroke: 'lightskyblue' },
       }}
@@ -72,6 +77,7 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     />
     <VictoryLine
       data={data}
+      interpolation="monotoneX"
       style={{
         data: { stroke: 'lightgreen' },
       }}
@@ -80,6 +86,7 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     />
     <VictoryLine
       data={data}
+      interpolation="monotoneX"
       style={{
         data: { stroke: 'lightseagreen' },
       }}

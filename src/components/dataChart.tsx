@@ -67,6 +67,7 @@ const DataChart = ({
           <VictoryLine
             key={country.name}
             data={country.periods.slice(0).reverse()}
+            interpolation="monotoneX"
             style={{ data }}
             x={x}
             y={y}

@@ -14,8 +14,8 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     domainPadding={{ y: 30 }}
   >
     <VictoryLegend
-      x={70}
-      y={15}
+      x={60}
+      y={0}
       itemsPerRow={2}
       gutter={20}
       data={[

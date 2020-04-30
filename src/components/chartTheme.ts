@@ -34,7 +34,7 @@ const Theme = {
       labels: {
         ...VictoryTheme.material.legend?.style?.labels,
         fontFamily,
-        fontSize: 10,
+        fontSize: 11,
       },
     },
   },

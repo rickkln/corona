@@ -35,6 +35,44 @@ type Table =
   | 'totalCases'
   | 'newCases';
 
+interface ChartInfo {
+  x: string
+  y: string
+}
+
+const getChartInfo = (selectedTable: string): ChartInfo => {
+  if (selectedTable === 'growth') {
+    return {
+      x: 'endDate',
+      y: 'growthRate',
+    };
+  } if (selectedTable === 'newDeaths') {
+    return {
+      x: 'endDate',
+      y: 'newDeaths',
+    };
+  } if (selectedTable === 'totalDeaths') {
+    return {
+      x: 'endDate',
+      y: 'totalDeaths',
+    };
+  } if (selectedTable === 'newCases') {
+    return {
+      x: 'endDate',
+      y: 'newCases',
+    };
+  } if (selectedTable === 'totalCases') {
+    return {
+      x: 'endDate',
+      y: 'totalCases',
+    };
+  }
+  return {
+    x: '',
+    y: '',
+  };
+};
+
 const DataContent = ({ countries }: { countries: Country[] }) => {
   const [selectedTable, setSelectedTable] = useState<Table>('newDeaths');
   const possibleTags = React.useMemo(() => getTags(countries), [countries]);
@@ -47,6 +85,7 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
     suggestedTags: possibleTags,
   });
   const [showAll, setShowAll] = useState(true);
+  const [startAtDeaths, setStartAtDeaths] = useState(false);
   return (
     <Layout>
       <SEO title="All Data" />
@@ -113,16 +152,14 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
       </button>
       <div style={{ marginBottom: '1em' }}>
         {selectedTable === 'growth' && 'Change in death count.'}
-        {selectedTable === 'newDeaths' && 'New deaths in period.'}
+        {selectedTable === 'newDeaths' && 'New deaths in 5-day period.'}
         {selectedTable === 'totalDeaths' && 'Deaths to date.'}
-        {selectedTable === 'newCases' && 'New cases in period.'}
+        {selectedTable === 'newCases' && 'New cases in 5-day period.'}
         {selectedTable === 'totalCases' && 'Cases to date.'}
-        {' '}
         <br />
-        <label>
+        <label className={styles.label}>
           <span>Include all countries</span>
           <Switch
-            id="showAll"
             onChange={setShowAll}
             checked={showAll}
             onColor="#28c53c"
@@ -130,18 +167,28 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
             className={styles.switch}
           />
         </label>
+        <label className={styles.label}>
+          <span>Start at first death</span>
+          {' '}
+          {' '}
+          <Switch
+            onChange={setStartAtDeaths}
+            checked={startAtDeaths}
+            onColor="#28c53c"
+            offColor="#ddd"
+            className={styles.switch}
+          />
+        </label>
       </div>
       <CountryFilter tags={tags} setTags={setTags} />
-      {selectedTable === 'growth'
-        && <DataChart countries={countries} x="endDate" y="growthRate" tags={tags.currentTags} showAll={showAll} />}
-      {selectedTable === 'newDeaths'
-        && <DataChart countries={countries} x="endDate" y="newDeaths" tags={tags.currentTags} showAll={showAll} />}
-      {selectedTable === 'totalDeaths'
-        && <DataChart countries={countries} x="endDate" y="totalDeaths" tags={tags.currentTags} showAll={showAll} />}
-      {selectedTable === 'newCases'
-        && <DataChart countries={countries} x="endDate" y="newCases" tags={tags.currentTags} showAll={showAll} />}
-      {selectedTable === 'totalCases'
-        && <DataChart countries={countries} x="endDate" y="totalCases" tags={tags.currentTags} showAll={showAll} />}
+      <DataChart
+        countries={countries}
+        x={getChartInfo(selectedTable).x}
+        y={getChartInfo(selectedTable).y}
+        tags={tags.currentTags}
+        showAll={showAll}
+        startAtDeaths={startAtDeaths}
+      />
       <small>
         The table below is color coded by
         {' '}

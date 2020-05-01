@@ -30,6 +30,7 @@ export interface Country {
   name?: string
   results?: Result[]
   periods: Period[]
+  periodsWithDeaths: Period[]
 }
 
 interface Result {
@@ -51,6 +52,11 @@ export enum OutbreakStatus {
   Crushing = 'Crushing the Curve',
   Winning = 'Winning',
   Won = 'Won',
+}
+
+interface Periods {
+  periods: Period[]
+  periodsWithDeaths: Period[]
 }
 
 export interface Period {
@@ -127,8 +133,9 @@ export const getTags = (countries: Country[]): Tag[] => countries.map((country) 
   name: country.name ?? '',
 }));
 
-const calulatePeriodData = (counts: Counts[]): Period[] => counts
-  .map((currentCounts, index, array) => {
+const calulatePeriodData = (counts: Counts[]): Periods => {
+  const periodsWithDeaths: Period[] = [];
+  const periods = counts.map((currentCounts, index, array) => {
     if (index < (array.length - 2)) {
       const previousNewDeaths = counts[index + 1].deaths - counts[index + 2].deaths;
       const currentNewDeaths = currentCounts.deaths - counts[index + 1].deaths;
@@ -140,7 +147,7 @@ const calulatePeriodData = (counts: Counts[]): Period[] => counts
         previousNewDeaths,
         growthRate,
       );
-      return {
+      const period = {
         endDate: getPeriodName(1 + index * PERIOD_LENGTH),
         totalDeaths: currentCounts.deaths,
         newDeaths: currentNewDeaths,
@@ -152,6 +159,10 @@ const calulatePeriodData = (counts: Counts[]): Period[] => counts
             ? Math.round(growthRate * 100) / 100
             : 0,
       };
+      if (currentCounts.deaths > 0) {
+        periodsWithDeaths.push(period);
+      }
+      return period;
     }
     // In this case this is one of the 2 periods periods which we just needed
     // to calculate the last relevant period
@@ -165,6 +176,11 @@ const calulatePeriodData = (counts: Counts[]): Period[] => counts
       status: OutbreakStatus.None,
     };
   });
+  return {
+    periodsWithDeaths,
+    periods,
+  };
+};
 // TODO: Slice off the last two invalid items without affecting global summary calculation
 
 export const calculateData = (data: Countries | undefined): Country[] => {
@@ -190,10 +206,11 @@ export const calculateData = (data: Countries | undefined): Country[] => {
         };
       }
     });
-    const periods = calulatePeriodData(counts);
+    const allPeriods = calulatePeriodData(counts);
     return {
       ...country,
-      periods,
+      periods: allPeriods.periods,
+      periodsWithDeaths: allPeriods.periodsWithDeaths,
     };
   });
 };
@@ -214,10 +231,12 @@ export const sumPeriodData = (countries: Country[]): Country[] => {
       }),
     ),
   );
+  const allPeriods = calulatePeriodData(counts);
   return [{
     name: 'Global',
     results: [],
-    periods: calulatePeriodData(counts),
+    periods: allPeriods.periods,
+    periodsWithDeaths: allPeriods.periodsWithDeaths,
   }];
 };
 

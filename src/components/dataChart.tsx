@@ -20,6 +20,7 @@ interface DataChartProps {
   y: string
   tags: Tag[]
   showAll: boolean
+  startAtDeaths: boolean
 }
 
 interface Selected {
@@ -36,7 +37,7 @@ const selectedColors = [
 ];
 
 const DataChart = ({
-  countries, x, y, tags, showAll,
+  countries, x, y, tags, showAll, startAtDeaths,
 }: DataChartProps) => {
   const selected: Selected = {};
   tags.forEach(
@@ -77,13 +78,18 @@ const DataChart = ({
             : {
               strokeWidth: 1,
             };
+          const periods = startAtDeaths
+            ? country.periodsWithDeaths.slice(0).reverse()
+            : country.periods.slice(0).reverse();
           return (
             <VictoryLine
               key={country.name}
-              data={country.periods.slice(0).reverse()}
+              data={periods}
               interpolation="monotoneX"
               style={{ data }}
-              x={x}
+              x={startAtDeaths
+                ? ''
+                : x}
               y={y}
             />
           );

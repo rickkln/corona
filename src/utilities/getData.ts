@@ -88,18 +88,18 @@ const periodStatus = (
 ): OutbreakStatus | undefined => {
   if (totalDeaths === 0) {
     return OutbreakStatus.None;
-  } if (totalDeaths < 10 || !Number.isFinite(growthRate)) {
+  } if (totalDeaths < 10) {
     return OutbreakStatus.Small;
-  } if (growthRate >= 100) {
+  } if (growthRate >= 100 && Number.isFinite(growthRate)) {
     return OutbreakStatus.Losing;
-  } if (growthRate > 0 || currentNewDeaths >= 100) {
+  } if ((growthRate > 0 && Number.isFinite(growthRate)) || currentNewDeaths >= 100) {
     return OutbreakStatus.Flattening;
-  } if ((currentNewDeaths >= 10 && currentNewDeaths < 100) || growthRate < -50) {
-    return OutbreakStatus.Crushing;
   } if (currentNewDeaths === 0 && previousNewDeaths === 0) {
     return OutbreakStatus.Won;
   } if (currentNewDeaths < 10) {
     return OutbreakStatus.Winning;
+  } if ((currentNewDeaths >= 10 && currentNewDeaths < 100) || growthRate < -50) {
+    return OutbreakStatus.Crushing;
   }
   return undefined;
 };

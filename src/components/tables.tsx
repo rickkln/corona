@@ -13,7 +13,8 @@ const formatCell = (period: Period) => {
   if (
     period.status === OutbreakStatus.None
     || period.status === OutbreakStatus.Small
-    || period.status === OutbreakStatus.Won
+    || !Number.isFinite(period.growthRate)
+    || Number.isNaN(period.growthRate)
   ) {
     return { value: period.status, className };
   }

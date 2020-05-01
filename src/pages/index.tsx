@@ -24,7 +24,8 @@ const IndexPage = () => {
     (country) => country.periods[0].status === OutbreakStatus.Losing,
   );
   const winningData = countries.filter(
-    (country) => country.periods[0].status === OutbreakStatus.Winning,
+    (country) => country.periods[0].status === OutbreakStatus.Winning
+      || country.periods[0].status === OutbreakStatus.Won,
   );
   if (loading) {
     return (

@@ -155,7 +155,7 @@ const calulatePeriodData = (counts: Counts[]): Periods => {
         totalCases: currentCounts.cases,
         newCases: currentNewCases,
         growthRate:
-          (currentStatus !== OutbreakStatus.None) && (currentStatus !== OutbreakStatus.Small)
+          (Number.isFinite(growthRate) && !Number.isNaN(growthRate))
             ? Math.round(growthRate * 100) / 100
             : 0,
       };

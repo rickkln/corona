@@ -254,7 +254,7 @@ export const calculateGlobalSummary = (countries: Country[]): PeriodSummary[] =>
       won: 0,
     }),
   );
-  return countries.reduce(
+  const periodSummaries = countries.reduce(
     (globalPeriods, country) => globalPeriods.reduce(
       (globalPeriodsInner, _currentPeriod, periodIndex) => {
         const newGlobalPeriods = globalPeriodsInner;
@@ -279,4 +279,6 @@ export const calculateGlobalSummary = (countries: Country[]): PeriodSummary[] =>
     ),
     initialPeriodSummaries,
   );
+  periodSummaries.reverse();
+  return periodSummaries.slice(60 / PERIOD_LENGTH); // Cut off first 60 days for summary
 };

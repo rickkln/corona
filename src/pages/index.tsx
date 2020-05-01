@@ -20,7 +20,6 @@ const IndexPage = () => {
   const countries = useMemo(() => calculateData(data), [data]);
   const globalData = sumPeriodData(countries);
   const globalSummaryData = calculateGlobalSummary(countries);
-  globalSummaryData.reverse();
   const losingData = countries.filter(
     (country) => country.periods[0].status === OutbreakStatus.Losing,
   );

@@ -3,8 +3,8 @@ import {
   VictoryChart, VictoryLine, VictoryAxis,
 } from 'victory';
 import { Tag } from 'react-tag-autocomplete';
-import { Country } from '../utilities/getData';
-import Theme from './chartTheme';
+import { Country } from '../../utilities/types/data';
+import Theme from '../shared/general/chartTheme';
 import {
   cyanA400,
   deepPurpleA200,
@@ -12,7 +12,7 @@ import {
   lightBlueA700,
   purpleA200,
   lightGreen700,
-} from './colors';
+} from '../shared/general/colors';
 
 interface DataChartProps {
   countries: Country[]

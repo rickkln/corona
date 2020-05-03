@@ -1,15 +1,17 @@
 import React, { useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import Layout from '../components/layout';
-import SEO from '../components/seo';
-import {
-  Countries, countryQuery, calculateData, sumPeriodData, PERIOD_LENGTH,
-} from '../utilities/getData';
-import DataContent from '../components/dataContent';
+import Layout from '../components/shared/general/layout';
+import SEO from '../components/shared/general/seo';
+import { PERIOD_LENGTH } from '../utilities/periodUtils';
+import { Countries } from '../utilities/types/data';
+import { calculateData } from '../utilities/calcAllData';
+import { sumPeriodData } from '../utilities/calcGlobal';
+import DataContent from '../components/data/dataContent';
+import CountryQuery from '../utilities/query';
 
 const DataPage = () => {
   const [periodLength, setPeriodLength] = useState(PERIOD_LENGTH);
-  const { loading, error, data } = useQuery<Countries>(countryQuery);
+  const { loading, error, data } = useQuery<Countries>(CountryQuery);
   const countries = useMemo(() => calculateData(data, periodLength), [data, periodLength]);
   const allData = [...countries, ...sumPeriodData(countries, periodLength)];
   if (loading) {

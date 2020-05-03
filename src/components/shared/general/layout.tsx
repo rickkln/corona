@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from './header';
+import Header from '../navigation/header';
 import './layout.css';
-import BottomNavigation from './bottomNavigation';
+import BottomNavigation from '../navigation/bottomNavigation';
 
 interface Props {
   children: React.ReactNode

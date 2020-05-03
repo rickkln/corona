@@ -2,8 +2,8 @@ import React from 'react';
 import {
   VictoryChart, VictoryLegend, VictoryLine, VictoryAxis,
 } from 'victory';
-import { PeriodSummary } from '../utilities/getData';
-import Theme from './chartTheme';
+import { PeriodSummary } from '../../utilities/types/data';
+import Theme from '../shared/general/chartTheme';
 
 const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
   <VictoryChart

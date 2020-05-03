@@ -1,7 +1,7 @@
 import React from 'react';
-import Layout from '../components/layout';
-import SEO from '../components/seo';
-import Legend from '../components/legend';
+import Layout from '../components/shared/general/layout';
+import SEO from '../components/shared/general/seo';
+import Legend from '../components/details/legend';
 
 const DetailsPage = () => (
   <Layout>

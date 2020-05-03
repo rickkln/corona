@@ -1,17 +1,16 @@
 import React, { useState, CSSProperties } from 'react';
 import { Link } from 'gatsby';
 import Switch from 'react-switch';
-import Layout from './layout';
-import SEO from './seo';
-import {
-  getTags, Country,
-} from '../utilities/getData';
+import Layout from '../shared/general/layout';
+import SEO from '../shared/general/seo';
 import {
   GrowthTable, NewDeathsTable, TotalDeathsTable, NewCasesTable, TotalCasesTable,
-} from './tables';
+} from '../shared/tables/tables';
 import DataChart from './dataChart';
 import CountryFilter, { Tags } from './countryFilter';
 import styles from './dataContent.module.css';
+import { Country } from '../../utilities/types/data';
+import { getTags } from '../../utilities/periodUtils';
 
 const buttonStyle: CSSProperties = {
   fontSize: '0.85em',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { OutbreakStatus } from '../utilities/getData';
 import styles from './legend.module.css';
+import OutbreakStatus from '../../utilities/types/OutbreakStatus';
 
 export const getStatusInfo = (status: OutbreakStatus | undefined) => {
   if (status === OutbreakStatus.None) {

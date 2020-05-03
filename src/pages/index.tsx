@@ -1,23 +1,20 @@
 import React, { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 import { Link } from 'gatsby';
-import Layout from '../components/layout';
-import SEO from '../components/seo';
-import {
-  countryQuery,
-  calculateData,
-  sumPeriodData,
-  Countries,
-  OutbreakStatus,
-  calculateGlobalSummary,
-  PERIOD_LENGTH,
-} from '../utilities/getData';
-import { GrowthSummaryTable } from '../components/tables';
-import { getStatusInfo } from '../components/legend';
-import SummaryChart from '../components/summaryChart';
+import Layout from '../components/shared/general/layout';
+import SEO from '../components/shared/general/seo';
+import { GrowthSummaryTable } from '../components/shared/tables/tables';
+import { getStatusInfo } from '../components/details/legend';
+import SummaryChart from '../components/status/summaryChart';
+import { Countries } from '../utilities/types/data';
+import { calculateData } from '../utilities/calcAllData';
+import { PERIOD_LENGTH } from '../utilities/periodUtils';
+import { sumPeriodData, calculateGlobalSummary } from '../utilities/calcGlobal';
+import OutbreakStatus from '../utilities/types/OutbreakStatus';
+import CountryQuery from '../utilities/query';
 
 const IndexPage = () => {
-  const { loading, error, data } = useQuery<Countries>(countryQuery);
+  const { loading, error, data } = useQuery<Countries>(CountryQuery);
   const countries = useMemo(() => calculateData(data, PERIOD_LENGTH), [data]);
   const globalData = sumPeriodData(countries, PERIOD_LENGTH);
   const globalSummaryData = calculateGlobalSummary(countries, PERIOD_LENGTH);

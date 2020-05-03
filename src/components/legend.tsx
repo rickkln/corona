@@ -44,7 +44,10 @@ export const getStatusInfo = (status: OutbreakStatus | undefined) => {
         {' '}
         <strong>100% or more</strong>
         {' '}
-        (Doubled or worse).
+        OR
+        {' '}
+        <strong>stayed above 1000</strong>
+        .
       </span>
     );
   } if (status === OutbreakStatus.Flattening) {

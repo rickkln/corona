@@ -90,7 +90,7 @@ const periodStatus = (
     return OutbreakStatus.None;
   } if (totalDeaths < 10) {
     return OutbreakStatus.Small;
-  } if (growthRate >= 100 && Number.isFinite(growthRate)) {
+  } if ((growthRate >= 100 && Number.isFinite(growthRate)) || currentNewDeaths >= 1000) {
     return OutbreakStatus.Losing;
   } if ((growthRate > 0 && Number.isFinite(growthRate)) || currentNewDeaths >= 100) {
     return OutbreakStatus.Flattening;

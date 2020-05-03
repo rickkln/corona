@@ -78,7 +78,7 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
   const possibleTags = React.useMemo(() => getTags(countries), [countries]);
   const [tags, setTags] = useState<Tags>({
     currentTags: [
-      { id: 'US', name: 'US' },
+      { id: 'United States', name: 'United States' },
       { id: 'Brazil', name: 'Brazil' },
       { id: 'United Kingdom', name: 'United Kingdom' },
     ],

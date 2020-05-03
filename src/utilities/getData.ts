@@ -185,7 +185,8 @@ const calulatePeriodData = (counts: Counts[]): Periods => {
 
 export const calculateData = (data: Countries | undefined): Country[] => {
   if (!data?.countries) { return []; }
-  return data?.countries?.map((country) => {
+  const countries: Country[] = [];
+  data?.countries?.forEach((country) => {
     const counts: Counts[] = Array.from(
       { length: PERIOD_COUNT },
       () => ({
@@ -207,12 +208,18 @@ export const calculateData = (data: Countries | undefined): Country[] => {
       }
     });
     const allPeriods = calulatePeriodData(counts);
-    return {
-      ...country,
-      periods: allPeriods.periods,
-      periodsWithDeaths: allPeriods.periodsWithDeaths,
-    };
+    if (country.name !== 'Diamond Princess') {
+      countries.push({
+        ...country,
+        name: country.name === 'US'
+          ? 'United States'
+          : country.name,
+        periods: allPeriods.periods,
+        periodsWithDeaths: allPeriods.periodsWithDeaths,
+      });
+    }
   });
+  return countries;
 };
 
 export const sumPeriodData = (countries: Country[]): Country[] => {

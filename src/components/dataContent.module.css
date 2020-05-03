@@ -1,8 +1,22 @@
+
+.chart-settings {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 1rem 0;
+}
+
 .switch {
   top: 0.6em;
   margin-left: 1em;
 }
 
 .label {
-  margin: 0 2em 0 0;
+  flex: 1 0 50%;
+  min-width: 300px;
+}
+
+@media only screen and (min-width: 768px) {
+  .chart-settings {
+    margin: '0 0 1rem 8rem',
+  }
 }

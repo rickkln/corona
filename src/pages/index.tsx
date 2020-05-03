@@ -10,6 +10,7 @@ import {
   Countries,
   OutbreakStatus,
   calculateGlobalSummary,
+  PERIOD_LENGTH,
 } from '../utilities/getData';
 import { GrowthSummaryTable } from '../components/tables';
 import { getStatusInfo } from '../components/legend';
@@ -17,9 +18,9 @@ import SummaryChart from '../components/summaryChart';
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(countryQuery);
-  const countries = useMemo(() => calculateData(data), [data]);
-  const globalData = sumPeriodData(countries);
-  const globalSummaryData = calculateGlobalSummary(countries);
+  const countries = useMemo(() => calculateData(data, PERIOD_LENGTH), [data]);
+  const globalData = sumPeriodData(countries, PERIOD_LENGTH);
+  const globalSummaryData = calculateGlobalSummary(countries, PERIOD_LENGTH);
   const losingData = countries.filter(
     (country) => country.periods[0].status === OutbreakStatus.Losing,
   );

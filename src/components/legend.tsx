@@ -112,7 +112,11 @@ export const getStatusInfo = (status: OutbreakStatus | undefined) => {
         {' '}
         <strong>no new deaths</strong>
         {' '}
-        for 10 days.
+        for
+        {' '}
+        <strong>two periods</strong>
+        {' '}
+        in a row.
       </span>
     );
   }
@@ -122,7 +126,15 @@ export const getStatusInfo = (status: OutbreakStatus | undefined) => {
 const Legend = () => (
   <div className={styles.legend}>
     <h2>Legend</h2>
-    <p>The items below all refer to a given 5 day period, unless otherwise stated.</p>
+    <p>
+      The items below all cover a single period, unless otherwise stated.
+      A single period is
+      {' '}
+      <strong>5-days</strong>
+      {' '}
+      by default, though you can set your own period length when exploring the data.
+
+    </p>
     <ul>
       <li className={styles.none}>
         {getStatusInfo(OutbreakStatus.None)}

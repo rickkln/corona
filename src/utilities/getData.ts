@@ -14,14 +14,6 @@ export const countryQuery = gql`
   }
 `;
 
-const getDaysAgo = (date: Date): number => {
-  const millisecondsAgo = new Date().valueOf() - new Date(date).valueOf();
-  return Math.floor((millisecondsAgo) / (1000 * 60 * 60 * 24));
-};
-
-const PERIOD_LENGTH = 5;
-const PERIOD_COUNT = Math.floor(getDaysAgo(new Date('2020/01/07')) / PERIOD_LENGTH);
-
 export interface Countries {
   countries?: Country[];
 }
@@ -80,6 +72,17 @@ export interface PeriodSummary {
   won: number
 }
 
+export const PERIOD_LENGTH = 5;
+
+const getDaysAgo = (date: Date): number => {
+  const millisecondsAgo = new Date().valueOf() - new Date(date).valueOf();
+  return Math.floor((millisecondsAgo) / (1000 * 60 * 60 * 24));
+};
+
+const getPeriodCount = (
+  periodLength: number,
+) => Math.floor(getDaysAgo(new Date('2020/01/07')) / periodLength);
+
 const periodStatus = (
   totalDeaths: number,
   currentNewDeaths: number,
@@ -133,7 +136,7 @@ export const getTags = (countries: Country[]): Tag[] => countries.map((country) 
   name: country.name ?? '',
 }));
 
-const calulatePeriodData = (counts: Counts[]): Periods => {
+const calulatePeriodData = (counts: Counts[], periodLength: number): Periods => {
   const periodsWithDeaths: Period[] = [];
   const periods = counts.map((currentCounts, index, array) => {
     if (index < (array.length - 2)) {
@@ -148,7 +151,7 @@ const calulatePeriodData = (counts: Counts[]): Periods => {
         growthRate,
       );
       const period = {
-        endDate: getPeriodName(1 + index * PERIOD_LENGTH),
+        endDate: getPeriodName(1 + index * periodLength),
         totalDeaths: currentCounts.deaths,
         newDeaths: currentNewDeaths,
         status: currentStatus,
@@ -183,12 +186,13 @@ const calulatePeriodData = (counts: Counts[]): Periods => {
 };
 // TODO: Slice off the last two invalid items without affecting global summary calculation
 
-export const calculateData = (data: Countries | undefined): Country[] => {
+export const calculateData = (data: Countries | undefined, periodLength: number): Country[] => {
+  const periodCount = getPeriodCount(periodLength);
   if (!data?.countries) { return []; }
   const countries: Country[] = [];
   data?.countries?.forEach((country) => {
     const counts: Counts[] = Array.from(
-      { length: PERIOD_COUNT },
+      { length: periodCount },
       () => ({
         deaths: 0,
         cases: 0,
@@ -198,16 +202,16 @@ export const calculateData = (data: Countries | undefined): Country[] => {
       if (!result?.date) { return; }
       const daysAgo = getDaysAgo(new Date(result?.date));
       // We're looking at an amount of periods defined by PERIOD_COUNT
-      // each with an amount of days defined by PERIOD_LENGTH
+      // each with an amount of days defined by periodLength
       // We ignore today as it has incomplete data
-      if (daysAgo <= (PERIOD_COUNT * PERIOD_LENGTH) && daysAgo >= 1) {
-        counts[Math.round(daysAgo / PERIOD_LENGTH) - 1] = {
+      if (daysAgo <= (periodCount * periodLength) && daysAgo >= 1) {
+        counts[Math.round(daysAgo / periodLength) - 1] = {
           deaths: result?.deaths ?? 0,
           cases: result?.confirmed ?? 0,
         };
       }
     });
-    const allPeriods = calulatePeriodData(counts);
+    const allPeriods = calulatePeriodData(counts, periodLength);
     if (country.name !== 'Diamond Princess') {
       countries.push({
         ...country,
@@ -222,7 +226,8 @@ export const calculateData = (data: Countries | undefined): Country[] => {
   return countries;
 };
 
-export const sumPeriodData = (countries: Country[]): Country[] => {
+export const sumPeriodData = (countries: Country[], periodLength: number): Country[] => {
+  const periodCount = getPeriodCount(periodLength);
   const counts = countries.reduce(
     (global, country) => global.map(
       (currentPeriodTotals, index) => ({
@@ -231,14 +236,14 @@ export const sumPeriodData = (countries: Country[]): Country[] => {
       }),
     ),
     Array.from(
-      { length: PERIOD_COUNT },
+      { length: periodCount },
       () => ({
         deaths: 0,
         cases: 0,
       }),
     ),
   );
-  const allPeriods = calulatePeriodData(counts);
+  const allPeriods = calulatePeriodData(counts, periodLength);
   return [{
     name: 'Global',
     results: [],
@@ -247,11 +252,15 @@ export const sumPeriodData = (countries: Country[]): Country[] => {
   }];
 };
 
-export const calculateGlobalSummary = (countries: Country[]): PeriodSummary[] => {
+export const calculateGlobalSummary = (
+  countries: Country[],
+  periodLength: number,
+): PeriodSummary[] => {
+  const periodCount = getPeriodCount(periodLength);
   const initialPeriodSummaries: PeriodSummary[] = Array.from(
-    { length: PERIOD_COUNT - 2 },
+    { length: periodCount - 2 },
     (_value, index) => ({
-      endDate: getPeriodName(1 + index * PERIOD_LENGTH),
+      endDate: getPeriodName(1 + index * periodLength),
       none: 0,
       small: 0,
       losing: 0,
@@ -287,5 +296,5 @@ export const calculateGlobalSummary = (countries: Country[]): PeriodSummary[] =>
     initialPeriodSummaries,
   );
   periodSummaries.reverse();
-  return periodSummaries.slice(60 / PERIOD_LENGTH); // Cut off first 60 days for summary
+  return periodSummaries.slice(60 / periodLength); // Cut off first 60 days for summary
 };

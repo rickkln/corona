@@ -73,9 +73,17 @@ const getChartInfo = (selectedTable: string): ChartInfo => {
   };
 };
 
-const DataContent = ({ countries }: { countries: Country[] }) => {
-  const [selectedTable, setSelectedTable] = useState<Table>('newDeaths');
+const DataContent = ({
+  countries,
+  period,
+  onPeriodChange,
+}: {
+  countries: Country[],
+  period: number,
+  onPeriodChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}) => {
   const possibleTags = React.useMemo(() => getTags(countries), [countries]);
+  const [selectedTable, setSelectedTable] = useState<Table>('newDeaths');
   const [tags, setTags] = useState<Tags>({
     currentTags: [
       { id: 'United States', name: 'United States' },
@@ -150,13 +158,33 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
       >
         Total Cases
       </button>
-      <div style={{ marginBottom: '1em' }}>
+      <div style={{ marginBottom: '1rem' }}>
         {selectedTable === 'growth' && 'Change in death count.'}
-        {selectedTable === 'newDeaths' && 'New deaths in 5-day period.'}
+        {selectedTable === 'newDeaths' && 'New deaths.'}
         {selectedTable === 'totalDeaths' && 'Deaths to date.'}
-        {selectedTable === 'newCases' && 'New cases in 5-day period.'}
+        {selectedTable === 'newCases' && 'New cases.'}
         {selectedTable === 'totalCases' && 'Cases to date.'}
-        <br />
+      </div>
+      <div className={styles.chartSettings}>
+        <label className={styles.label}>
+          Period length:
+          <input
+            type="number"
+            name="period-length"
+            value={period}
+            onChange={onPeriodChange}
+            style={{
+              fontWeight: 'bold',
+              textDecoration: 'underline',
+              width: '1.8rem',
+              margin: '0 0 0 0.5rem',
+              border: 'none',
+            }}
+          />
+          days
+        </label>
+        {' '}
+        {' '}
         <label className={styles.label}>
           <span>Include all countries</span>
           <Switch
@@ -179,6 +207,7 @@ const DataContent = ({ countries }: { countries: Country[] }) => {
             className={styles.switch}
           />
         </label>
+        <label className={styles.label} />
       </div>
       <CountryFilter tags={tags} setTags={setTags} />
       <DataChart

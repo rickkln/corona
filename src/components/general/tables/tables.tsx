@@ -4,9 +4,9 @@ import {
 } from 'react-table';
 import styles from './tables.module.css';
 import Table from './table';
-import {
-  Country, Period, OutbreakStatus, getCSSClassFor, getPeriodName,
-} from '../../../utilities/periodUtils';
+import { Period, Country } from '../../../utilities/types/data';
+import { getCSSClassFor, getPeriodName } from '../../../utilities/periodUtils';
+import OutbreakStatus from '../../../utilities/types/OutbreakStatus';
 
 const formatCell = (period: Period) => {
   const className = getCSSClassFor(period.status);

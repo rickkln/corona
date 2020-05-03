@@ -3,7 +3,7 @@ import React from 'react';
 import { TableInstance } from 'react-table';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 import './table.css';
-import { Period } from '../../../utilities/periodUtils';
+import { Period } from '../../../utilities/types/data';
 
 declare module 'react-table' {
   interface ColumnInstance {

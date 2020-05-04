@@ -37,38 +37,45 @@ type Table =
 interface ChartInfo {
   x: string
   y: string
+  title: string
 }
 
-const getChartInfo = (selectedTable: string): ChartInfo => {
+const getChartInfo = (selectedTable: string, period: number): ChartInfo => {
   if (selectedTable === 'growth') {
     return {
       x: 'endDate',
       y: 'growthRate',
+      title: 'Change in deaths between periods',
     };
   } if (selectedTable === 'newDeaths') {
     return {
       x: 'endDate',
       y: 'newDeaths',
+      title: `New deaths by ${period}-day period`,
     };
   } if (selectedTable === 'totalDeaths') {
     return {
       x: 'endDate',
       y: 'totalDeaths',
+      title: 'Total deaths by date',
     };
   } if (selectedTable === 'newCases') {
     return {
       x: 'endDate',
       y: 'newCases',
+      title: `New cases by ${period}-day period`,
     };
   } if (selectedTable === 'totalCases') {
     return {
       x: 'endDate',
       y: 'totalCases',
+      title: 'Total cases by date',
     };
   }
   return {
     x: '',
     y: '',
+    title: '',
   };
 };
 
@@ -83,6 +90,10 @@ const DataContent = ({
 }) => {
   const possibleTags = React.useMemo(() => getTags(countries), [countries]);
   const [selectedTable, setSelectedTable] = useState<Table>('newDeaths');
+  const chartInfo = React.useMemo(
+    () => getChartInfo(selectedTable, period),
+    [selectedTable, period],
+  );
   const [tags, setTags] = useState<Tags>({
     currentTags: [
       { id: 'United States', name: 'United States' },
@@ -131,7 +142,7 @@ const DataContent = ({
         }}
         onClick={() => setSelectedTable('growth')}
       >
-        Growth
+        Change in Deaths
       </button>
       <button
         type="button"
@@ -157,13 +168,6 @@ const DataContent = ({
       >
         Total Cases
       </button>
-      <div style={{ marginBottom: '1rem' }}>
-        {selectedTable === 'growth' && 'Change in death count.'}
-        {selectedTable === 'newDeaths' && 'New deaths.'}
-        {selectedTable === 'totalDeaths' && 'Deaths to date.'}
-        {selectedTable === 'newCases' && 'New cases.'}
-        {selectedTable === 'totalCases' && 'Cases to date.'}
-      </div>
       <div className={styles.chartSettings}>
         <label className={styles.label}>
           Period length:
@@ -211,8 +215,9 @@ const DataContent = ({
       <CountryFilter tags={tags} setTags={setTags} />
       <DataChart
         countries={countries}
-        x={getChartInfo(selectedTable).x}
-        y={getChartInfo(selectedTable).y}
+        x={chartInfo.x}
+        y={chartInfo.y}
+        title={chartInfo.title}
         tags={tags.currentTags}
         showAll={showAll}
         startAtDeaths={startAtDeaths}

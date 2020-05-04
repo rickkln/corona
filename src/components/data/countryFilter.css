@@ -1,6 +1,7 @@
 .react-tags {
   position: relative;
   padding: 2px 0 0 6px;
+  margin-bottom: 0.2rem;
   border-radius: 1px;
 
   /* shared font styles */

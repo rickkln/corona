@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  VictoryChart, VictoryLegend, VictoryLine, VictoryAxis,
+  VictoryChart, VictoryLegend, VictoryLine, VictoryAxis, VictoryLabel,
 } from 'victory';
 import { PeriodSummary } from '../../utilities/types/data';
 import Theme from '../shared/general/chartTheme';
@@ -30,6 +30,26 @@ const SummaryChart = ({ data }: { data: PeriodSummary[] }) => (
     />
     <VictoryAxis fixLabelOverlap />
     <VictoryAxis dependentAxis />
+    <VictoryLabel
+      text="Pandemic Status (corona.rickkln.com)"
+      x={400}
+      y={64}
+      style={{
+        fontSize: 6,
+        fontFamily: `"SFMono-Regular", Consolas, "Roboto Mono", "Droid Sans Mono",
+            "Liberation Mono", Menlo, Courier, monospace`,
+      }}
+    />
+    <VictoryLabel
+      text="Source: JHU CSSE"
+      x={400}
+      y={72}
+      style={{
+        fontSize: 6,
+        fontFamily: `"SFMono-Regular", Consolas, "Roboto Mono", "Droid Sans Mono",
+            "Liberation Mono", Menlo, Courier, monospace`,
+      }}
+    />
     <VictoryLine
       data={data}
       interpolation="monotoneX"

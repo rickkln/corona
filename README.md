@@ -23,7 +23,7 @@ All code for this site is [open source](https://github.com/rickkln/corona). It i
 
 1.  [ESLint](https://eslint.org/) and the [AirBnB](https://github.com/airbnb/javascript) TypeScript style guide help you avoid, and fix, simple issues in your code.
 
-1. The default Gatsby formating tool, [Prettier](https://prettier.io/), has been removed in order to avoid conflicts with the ESLint + AirBnB TypeScript tools described above.
+1.  The default Gatsby formating tool, [Prettier](https://prettier.io/), has been removed in order to avoid conflicts with the ESLint + AirBnB TypeScript tools described above.
 
 ## 🚀 Quick start
 
@@ -36,10 +36,11 @@ All code for this site is [open source](https://github.com/rickkln/corona). It i
 
 1.  **Navigate into the cloned folder.**
 
-    Navigate into your new site’s directory and start it up:
+    Navigate into your new site’s directory, install node modules and start it up:
 
     ```shell
     cd corona/
+    npm install
     gatsby develop
     ```
 
@@ -86,11 +87,11 @@ A quick look at the top-level files and directories you'll see in this project.
 
 1.  **`LICENSE.md`**: Gatsby itself, the primary dependency of this project is licensed under the MIT license, however the original code in this project is licensed under the Mozilla Public License 2.0.
 
-1. **`package-lock.json`** (See `package.json` below, first). This is an automatically generated file based on the exact versions of your npm dependencies that were installed for your project. **(You won’t change this file directly).**
+1.  **`package-lock.json`** (See `package.json` below, first). This is an automatically generated file based on the exact versions of your npm dependencies that were installed for your project. **(You won’t change this file directly).**
 
-1. **`package.json`**: A manifest file for Node.js projects, which includes things like metadata (the project’s name, author, etc). This manifest is how npm knows which packages to install for your project.
+1.  **`package.json`**: A manifest file for Node.js projects, which includes things like metadata (the project’s name, author, etc). This manifest is how npm knows which packages to install for your project.
 
-1. **`README.md`**: This text file, which contains useful reference information about your project.
+1.  **`README.md`**: This text file, which contains useful reference information about your project.
 
 1.  **`tsconfig.json`**: This is a configuration file for TypeScript. The tsconfig.json file specifies the root files and the compiler options required for the TypeScript compiler to compile the project. More details are available in the [TypeScript docs](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 

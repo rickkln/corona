@@ -12,6 +12,7 @@ import { PERIOD_LENGTH } from '../utilities/periodUtils';
 import { sumPeriodData, calculateGlobalSummary } from '../utilities/calcGlobal';
 import OutbreakStatus from '../utilities/types/OutbreakStatus';
 import CountryQuery from '../utilities/query';
+import PandemicFreeChart from '../components/status/pandemicFreeChart';
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(CountryQuery);
@@ -77,6 +78,20 @@ const IndexPage = () => {
       >
         <h3 style={{ marginBottom: '0.8rem' }}>In how many places are winning?</h3>
         <SummaryChart data={globalSummaryData} />
+      </div>
+      <p className="chart-comment">
+        The &quot;Won&quot; status above focuses on deaths only, ignoring cases. This means
+        it should be a slight leading indicator compared to the &quot;Pandemic Free&quot; status
+        in the chart below, which requires both no deaths and no cases.
+      </p>
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: '1.2rem',
+        }}
+      >
+        <h3 style={{ marginBottom: 0 }}>How much of the world is pandemic free?</h3>
+        <PandemicFreeChart data={globalSummaryData} />
       </div>
       <div
         style={{

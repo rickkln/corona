@@ -47,6 +47,7 @@ export const calculateGlobalSummary = (
       crushing: 0,
       winning: 0,
       won: 0,
+      pandemicFree: 0,
     }),
   );
   const periodSummaries = countries.reduce(
@@ -55,18 +56,24 @@ export const calculateGlobalSummary = (
         const newGlobalPeriods = globalPeriodsInner;
         if (country.periods[periodIndex].status === OutbreakStatus.None) {
           newGlobalPeriods[periodIndex].none += 1;
-        } if (country.periods[periodIndex].status === OutbreakStatus.Small) {
+        } else if (country.periods[periodIndex].status === OutbreakStatus.Small) {
           newGlobalPeriods[periodIndex].small += 1;
-        } if (country.periods[periodIndex].status === OutbreakStatus.Losing) {
+        } else if (country.periods[periodIndex].status === OutbreakStatus.Losing) {
           newGlobalPeriods[periodIndex].losing += 1;
-        } if (country.periods[periodIndex].status === OutbreakStatus.Flattening) {
+        } else if (country.periods[periodIndex].status === OutbreakStatus.Flattening) {
           newGlobalPeriods[periodIndex].flattening += 1;
-        } if (country.periods[periodIndex].status === OutbreakStatus.Crushing) {
+        } else if (country.periods[periodIndex].status === OutbreakStatus.Crushing) {
           newGlobalPeriods[periodIndex].crushing += 1;
-        } if (country.periods[periodIndex].status === OutbreakStatus.Winning) {
+        } else if (country.periods[periodIndex].status === OutbreakStatus.Winning) {
           newGlobalPeriods[periodIndex].winning += 1;
-        } if (country.periods[periodIndex].status === OutbreakStatus.Won) {
+        } else if (country.periods[periodIndex].status === OutbreakStatus.Won) {
           newGlobalPeriods[periodIndex].won += 1;
+        }
+        if (
+          country.periods[periodIndex].newDeaths === 0
+          && country.periods[periodIndex].newCases === 0
+        ) {
+          newGlobalPeriods[periodIndex].pandemicFree += (1 / 186);
         }
         return newGlobalPeriods;
       },

@@ -636,6 +636,9 @@ footer {
   pointer-events: auto !important;
   touch-action: auto !important;
 }
+.chart-comment {
+  margin: 0 4rem 2rem 4rem;
+}
 @media only screen and (max-width: 480px) {
   html {
     font-size: 90%;
@@ -645,5 +648,8 @@ footer {
   }
   footer {
     margin: 1.2rem 0 5.2rem;
+  }
+  .chart-comment {
+    margin: 0 0.5rem 2rem 0.5rem;
   }
 }

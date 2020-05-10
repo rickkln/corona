@@ -46,4 +46,5 @@ export interface PeriodSummary {
   crushing: number
   winning: number
   won: number
+  pandemicFree: number
 }

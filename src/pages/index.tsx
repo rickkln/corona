@@ -80,9 +80,22 @@ const IndexPage = () => {
         <SummaryChart data={globalSummaryData} />
       </div>
       <p className="chart-comment">
-        The &quot;Won&quot; status above focuses on deaths only, ignoring cases. This means
-        it should be a slight leading indicator compared to the &quot;Pandemic Free&quot; status
+        The
+        {' '}
+        <em>Won</em>
+        {' '}
+        status above only looks at deaths, and should therefore be a slight leading
+        indicator compared to the
+        {' '}
+        <em>Pandemic Free</em>
+        {' '}
+        status
         in the chart below, which requires both no deaths and no cases.
+        {' '}
+        <em>Pandemic Free</em>
+        {' '}
+        should also decrease in the begging as outbreaks start, and then increase once countries
+        succesfully eradicate the virus.
       </p>
       <div
         style={{

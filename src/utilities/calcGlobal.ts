@@ -73,7 +73,7 @@ export const calculateGlobalSummary = (
           country.periods[periodIndex].newDeaths === 0
           && country.periods[periodIndex].newCases === 0
         ) {
-          newGlobalPeriods[periodIndex].pandemicFree += (1 / 186);
+          newGlobalPeriods[periodIndex].pandemicFree += ((1 / 186) * 100);
         }
         return newGlobalPeriods;
       },
@@ -82,5 +82,5 @@ export const calculateGlobalSummary = (
     initialPeriodSummaries,
   );
   periodSummaries.reverse();
-  return periodSummaries.slice(60 / validPeriodLength); // Cut off first 60 days for summary
+  return periodSummaries.slice(50 / validPeriodLength); // Cut off first 60 days for summary
 };

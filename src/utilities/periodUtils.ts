@@ -4,6 +4,13 @@ import { Country } from './types/data';
 
 export const PERIOD_LENGTH = 5;
 
+export const validatePeriodLength = (periodLength: number) => {
+  if (periodLength === 0) {
+    return 5;
+  }
+  return periodLength;
+};
+
 export const getDaysAgo = (date: Date): number => {
   const millisecondsAgo = new Date().valueOf() - new Date(date).valueOf();
   return Math.floor((millisecondsAgo) / (1000 * 60 * 60 * 24));

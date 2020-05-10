@@ -27,6 +27,11 @@ const activeStyles: CSSProperties = {
   borderWidth: '2px',
 };
 
+export interface PeriodInfo {
+  length: number
+  value: string
+}
+
 type Table =
   | 'growth'
   | 'totalDeaths'
@@ -81,18 +86,18 @@ const getChartInfo = (selectedTable: string, period: number): ChartInfo => {
 
 const DataContent = ({
   countries,
-  period,
+  periodInfo,
   onPeriodChange,
 }: {
   countries: Country[],
-  period: number,
+  periodInfo: PeriodInfo,
   onPeriodChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }) => {
   const possibleTags = React.useMemo(() => getTags(countries), [countries]);
   const [selectedTable, setSelectedTable] = useState<Table>('newDeaths');
   const chartInfo = React.useMemo(
-    () => getChartInfo(selectedTable, period),
-    [selectedTable, period],
+    () => getChartInfo(selectedTable, periodInfo.length),
+    [selectedTable, periodInfo],
   );
   const [tags, setTags] = useState<Tags>({
     currentTags: [
@@ -174,7 +179,7 @@ const DataContent = ({
           <input
             type="number"
             name="period-length"
-            value={period}
+            value={periodInfo.value}
             onChange={onPeriodChange}
             style={{
               fontWeight: 'bold',

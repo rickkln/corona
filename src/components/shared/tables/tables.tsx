@@ -23,8 +23,12 @@ const formatCell = (period: Period) => {
 };
 
 const stickyGlobal = (row: Row, desc: boolean, value: number) => {
-  const global = desc ? 1 : -1;
-  return row.values.name === 'Global' ? global : value;
+  const global = desc
+    ? 1
+    : -1;
+  return row.values.name === 'Global'
+    ? global
+    : value;
 };
 
 const nameSort = (
@@ -554,7 +558,11 @@ export const GrowthSummaryTable = ({ data }: { data: Country[] }) => {
   const table = useTable({ columns, data });
 
   return (
-    <div className={data.length === 1 ? styles.tinyTable : ''}>
+    <div
+      className={data.length === 1
+        ? styles.tinyTable
+        : ''}
+    >
       <Table table={table} />
     </div>
   );

@@ -1,10 +1,11 @@
-import { getPeriodName, getPeriodCount } from './periodUtils';
+import { getPeriodName, getPeriodCount, validatePeriodLength } from './periodUtils';
 import { Country, PeriodSummary } from './types/data';
 import { calulatePeriodData } from './calcAllData';
 import OutbreakStatus from './types/OutbreakStatus';
 
 export const sumPeriodData = (countries: Country[], periodLength: number): Country[] => {
-  const periodCount = getPeriodCount(periodLength);
+  const validPeriodLength = validatePeriodLength(periodLength);
+  const periodCount = getPeriodCount(validPeriodLength);
   const counts = countries.reduce(
     (global, country) => global.map(
       (currentPeriodTotals, index) => ({
@@ -20,7 +21,7 @@ export const sumPeriodData = (countries: Country[], periodLength: number): Count
       }),
     ),
   );
-  const allPeriods = calulatePeriodData(counts, periodLength);
+  const allPeriods = calulatePeriodData(counts, validPeriodLength);
   return [{
     name: 'Global',
     results: [],
@@ -33,11 +34,12 @@ export const calculateGlobalSummary = (
   countries: Country[],
   periodLength: number,
 ): PeriodSummary[] => {
-  const periodCount = getPeriodCount(periodLength);
+  const validPeriodLength = validatePeriodLength(periodLength);
+  const periodCount = getPeriodCount(validPeriodLength);
   const initialPeriodSummaries: PeriodSummary[] = Array.from(
     { length: periodCount - 2 },
     (_value, index) => ({
-      endDate: getPeriodName(1 + index * periodLength),
+      endDate: getPeriodName(1 + index * validPeriodLength),
       none: 0,
       small: 0,
       losing: 0,
@@ -73,5 +75,5 @@ export const calculateGlobalSummary = (
     initialPeriodSummaries,
   );
   periodSummaries.reverse();
-  return periodSummaries.slice(60 / periodLength); // Cut off first 60 days for summary
+  return periodSummaries.slice(60 / validPeriodLength); // Cut off first 60 days for summary
 };

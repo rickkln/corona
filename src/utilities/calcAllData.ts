@@ -2,11 +2,12 @@ import {
   Counts, Periods, Period, Countries, Country,
 } from './types/data';
 import {
-  periodStatus, getPeriodName, getPeriodCount, getDaysAgo,
+  periodStatus, getPeriodName, getPeriodCount, getDaysAgo, validatePeriodLength,
 } from './periodUtils';
 import OutbreakStatus from './types/OutbreakStatus';
 
 export const calulatePeriodData = (counts: Counts[], periodLength: number): Periods => {
+  const validPeriodLength = validatePeriodLength(periodLength);
   const periodsWithDeaths: Period[] = [];
   const periods = counts.map((currentCounts, index, array) => {
     if (index < (array.length - 2)) {
@@ -21,7 +22,7 @@ export const calulatePeriodData = (counts: Counts[], periodLength: number): Peri
         growthRate,
       );
       const period = {
-        endDate: getPeriodName(1 + index * periodLength),
+        endDate: getPeriodName(1 + index * validPeriodLength),
         totalDeaths: currentCounts.deaths,
         newDeaths: currentNewDeaths,
         status: currentStatus,
@@ -57,7 +58,8 @@ export const calulatePeriodData = (counts: Counts[], periodLength: number): Peri
 // TODO: Slice off the last two invalid items without affecting global summary calculation
 
 export const calculateData = (data: Countries | undefined, periodLength: number): Country[] => {
-  const periodCount = getPeriodCount(periodLength);
+  const validPeriodLength = validatePeriodLength(periodLength);
+  const periodCount = getPeriodCount(validPeriodLength);
   if (!data?.countries) { return []; }
   const countries: Country[] = [];
   data?.countries?.forEach((country) => {
@@ -72,10 +74,10 @@ export const calculateData = (data: Countries | undefined, periodLength: number)
       if (!result?.date) { return; }
       const daysAgo = getDaysAgo(new Date(result?.date));
       // We're looking at an amount of periods defined by PERIOD_COUNT
-      // each with an amount of days defined by periodLength
+      // each with an amount of days defined by validPeriodLength
       // We ignore today as it has incomplete data
-      if (daysAgo <= (periodCount * periodLength) && daysAgo >= 1) {
-        counts[Math.round(daysAgo / periodLength) - 1] = {
+      if (daysAgo <= (periodCount * validPeriodLength) && daysAgo >= 1) {
+        counts[Math.round(daysAgo / validPeriodLength) - 1] = {
           deaths: result?.deaths ?? 0,
           cases: result?.confirmed ?? 0,
         };

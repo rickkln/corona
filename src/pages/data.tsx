@@ -6,14 +6,17 @@ import { PERIOD_LENGTH } from '../utilities/periodUtils';
 import { Countries } from '../utilities/types/data';
 import { calculateData } from '../utilities/calcAllData';
 import { sumPeriodData } from '../utilities/calcGlobal';
-import DataContent from '../components/data/dataContent';
+import DataContent, { PeriodInfo } from '../components/data/dataContent';
 import CountryQuery from '../utilities/query';
 
 const DataPage = () => {
-  const [periodLength, setPeriodLength] = useState(PERIOD_LENGTH);
+  const [periodInfo, setPeriodInfo] = useState<PeriodInfo>({
+    length: PERIOD_LENGTH,
+    value: String(PERIOD_LENGTH),
+  });
   const { loading, error, data } = useQuery<Countries>(CountryQuery);
-  const countries = useMemo(() => calculateData(data, periodLength), [data, periodLength]);
-  const allData = [...countries, ...sumPeriodData(countries, periodLength)];
+  const countries = useMemo(() => calculateData(data, periodInfo.length), [data, periodInfo]);
+  const allData = [...countries, ...sumPeriodData(countries, periodInfo.length)];
   if (loading) {
     return (
       <Layout>
@@ -33,8 +36,21 @@ const DataPage = () => {
   return (
     <DataContent
       countries={allData}
-      period={periodLength}
-      onPeriodChange={(event) => { setPeriodLength(Number(event.target.value)); }}
+      periodInfo={periodInfo}
+      onPeriodChange={(event) => {
+        const length = Number(event.target.value);
+        if (length > 0) {
+          setPeriodInfo({
+            length,
+            value: event.target.value,
+          });
+        } else {
+          setPeriodInfo({
+            length: 5,
+            value: event.target.value,
+          });
+        }
+      }}
     />
   );
 };

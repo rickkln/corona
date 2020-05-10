@@ -171,7 +171,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
 
   const initialState = React.useMemo(
     () => ({
-      sortBy: [{ id: 'name' }],
+      sortBy: [{ id: 'periods[0]', desc: true }],
     }),
     [],
   ) as Partial<TableState<Country>>;
@@ -259,7 +259,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
 
   const initialState = React.useMemo(
     () => ({
-      sortBy: [{ id: 'name' }],
+      sortBy: [{ id: 'periods[0]', desc: true }],
     }),
     [],
   ) as Partial<TableState<Country>>;
@@ -347,7 +347,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
 
   const initialState = React.useMemo(
     () => ({
-      sortBy: [{ id: 'name' }],
+      sortBy: [{ id: 'periods[0]', desc: true }],
     }),
     [],
   ) as Partial<TableState<Country>>;
@@ -435,7 +435,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
 
   const initialState = React.useMemo(
     () => ({
-      sortBy: [{ id: 'name' }],
+      sortBy: [{ id: 'periods[0]', desc: true }],
     }),
     [],
   ) as Partial<TableState<Country>>;
@@ -505,7 +505,7 @@ export const GrowthTable = ({ data }: { data: Country[] }) => {
 
   const initialState = React.useMemo(
     () => ({
-      sortBy: [{ id: 'name' }],
+      sortBy: [{ id: 'periods[0]', desc: true }],
     }),
     [],
   ) as Partial<TableState<Country>>;

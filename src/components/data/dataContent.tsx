@@ -232,11 +232,11 @@ const DataContent = ({
         {' '}
         <Link to="/details">Outbreak Status</Link>
       </small>
-      {selectedTable === 'growth' && <GrowthTable data={countries} />}
-      {selectedTable === 'newDeaths' && <NewDeathsTable data={countries} />}
-      {selectedTable === 'totalDeaths' && <TotalDeathsTable data={countries} />}
-      {selectedTable === 'newCases' && <NewCasesTable data={countries} />}
-      {selectedTable === 'totalCases' && <TotalCasesTable data={countries} />}
+      {selectedTable === 'growth' && <GrowthTable data={countries} periodLength={periodInfo.length} />}
+      {selectedTable === 'newDeaths' && <NewDeathsTable data={countries} periodLength={periodInfo.length} />}
+      {selectedTable === 'totalDeaths' && <TotalDeathsTable data={countries} periodLength={periodInfo.length} />}
+      {selectedTable === 'newCases' && <NewCasesTable data={countries} periodLength={periodInfo.length} />}
+      {selectedTable === 'totalCases' && <TotalCasesTable data={countries} periodLength={periodInfo.length} />}
     </Layout>
   );
 };

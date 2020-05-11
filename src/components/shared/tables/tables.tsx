@@ -5,7 +5,7 @@ import {
 import styles from './tables.module.css';
 import Table from './table';
 import { Period, Country } from '../../../utilities/types/data';
-import { getCSSClassFor, getPeriodName } from '../../../utilities/periodUtils';
+import { getCSSClassFor, getPeriodNames } from '../../../utilities/periodUtils';
 import OutbreakStatus from '../../../utilities/types/OutbreakStatus';
 
 const formatCell = (period: Period) => {
@@ -97,7 +97,13 @@ const growthSort = (
   rowA.values[columnId].growthRate - rowB.values[columnId].growthRate,
 );
 
-export const TotalCasesTable = ({ data }: { data: Country[] }) => {
+export const TotalCasesTable = ({
+  data, periodLength,
+}: {
+  data: Country[],
+  periodLength: number
+}) => {
+  const periodNames = React.useMemo(() => getPeriodNames(periodLength), [periodLength]);
   const columns = React.useMemo(
     () => [
       {
@@ -106,7 +112,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
         sortType: nameSort,
       },
       {
-        Header: getPeriodName(26),
+        Header: periodNames[5],
         accessor: 'periods[5]',
         Cell: ({ value }: { value: Period }) => value?.totalCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -116,7 +122,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
         sortType: totalCasesSort,
       },
       {
-        Header: getPeriodName(21),
+        Header: periodNames[4],
         accessor: 'periods[4]',
         Cell: ({ value }: { value: Period }) => value?.totalCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -126,7 +132,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
         sortType: totalCasesSort,
       },
       {
-        Header: getPeriodName(16),
+        Header: periodNames[3],
         accessor: 'periods[3]',
         Cell: ({ value }: { value: Period }) => value?.totalCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -136,7 +142,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
         sortType: totalCasesSort,
       },
       {
-        Header: getPeriodName(11),
+        Header: periodNames[2],
         accessor: 'periods[2]',
         Cell: ({ value }: { value: Period }) => value?.totalCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -146,7 +152,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
         sortType: totalCasesSort,
       },
       {
-        Header: getPeriodName(6),
+        Header: periodNames[1],
         accessor: 'periods[1]',
         Cell: ({ value }: { value: Period }) => value?.totalCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -156,7 +162,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
         sortType: totalCasesSort,
       },
       {
-        Header: getPeriodName(1),
+        Header: periodNames[0],
         accessor: 'periods[0]',
         Cell: ({ value }: { value: Period }) => value?.totalCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -166,7 +172,7 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
         sortType: totalCasesSort,
       },
     ],
-    [],
+    [periodNames],
   ) as Array<Column<Country>>;
 
   const initialState = React.useMemo(
@@ -185,7 +191,13 @@ export const TotalCasesTable = ({ data }: { data: Country[] }) => {
   );
 };
 
-export const NewCasesTable = ({ data }: { data: Country[] }) => {
+export const NewCasesTable = ({
+  data, periodLength,
+}: {
+  data: Country[],
+  periodLength: number
+}) => {
+  const periodNames = React.useMemo(() => getPeriodNames(periodLength), [periodLength]);
   const columns = React.useMemo(
     () => [
       {
@@ -194,7 +206,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
         sortType: nameSort,
       },
       {
-        Header: getPeriodName(26),
+        Header: periodNames[5],
         accessor: 'periods[5]',
         Cell: ({ value }: { value: Period }) => value?.newCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -204,7 +216,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
         sortType: newCasesSort,
       },
       {
-        Header: getPeriodName(21),
+        Header: periodNames[4],
         accessor: 'periods[4]',
         Cell: ({ value }: { value: Period }) => value?.newCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -214,7 +226,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
         sortType: newCasesSort,
       },
       {
-        Header: getPeriodName(16),
+        Header: periodNames[3],
         accessor: 'periods[3]',
         Cell: ({ value }: { value: Period }) => value?.newCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -224,7 +236,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
         sortType: newCasesSort,
       },
       {
-        Header: getPeriodName(11),
+        Header: periodNames[2],
         accessor: 'periods[2]',
         Cell: ({ value }: { value: Period }) => value?.newCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -234,7 +246,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
         sortType: newCasesSort,
       },
       {
-        Header: getPeriodName(6),
+        Header: periodNames[1],
         accessor: 'periods[1]',
         Cell: ({ value }: { value: Period }) => value?.newCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -244,7 +256,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
         sortType: newCasesSort,
       },
       {
-        Header: getPeriodName(1),
+        Header: periodNames[0],
         accessor: 'periods[0]',
         Cell: ({ value }: { value: Period }) => value?.newCases.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -254,7 +266,7 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
         sortType: newCasesSort,
       },
     ],
-    [],
+    [periodNames],
   ) as Array<Column<Country>>;
 
   const initialState = React.useMemo(
@@ -273,7 +285,13 @@ export const NewCasesTable = ({ data }: { data: Country[] }) => {
   );
 };
 
-export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
+export const TotalDeathsTable = ({
+  data, periodLength,
+}: {
+  data: Country[],
+  periodLength: number
+}) => {
+  const periodNames = React.useMemo(() => getPeriodNames(periodLength), [periodLength]);
   const columns = React.useMemo(
     () => [
       {
@@ -282,7 +300,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: nameSort,
       },
       {
-        Header: getPeriodName(26),
+        Header: periodNames[5],
         accessor: 'periods[5]',
         Cell: ({ value }: { value: Period }) => value?.totalDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -292,7 +310,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: totalDeathsSort,
       },
       {
-        Header: getPeriodName(21),
+        Header: periodNames[4],
         accessor: 'periods[4]',
         Cell: ({ value }: { value: Period }) => value?.totalDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -302,7 +320,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: totalDeathsSort,
       },
       {
-        Header: getPeriodName(16),
+        Header: periodNames[3],
         accessor: 'periods[3]',
         Cell: ({ value }: { value: Period }) => value?.totalDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -312,7 +330,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: totalDeathsSort,
       },
       {
-        Header: getPeriodName(11),
+        Header: periodNames[2],
         accessor: 'periods[2]',
         Cell: ({ value }: { value: Period }) => value?.totalDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -322,7 +340,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: totalDeathsSort,
       },
       {
-        Header: getPeriodName(6),
+        Header: periodNames[1],
         accessor: 'periods[1]',
         Cell: ({ value }: { value: Period }) => value?.totalDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -332,7 +350,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: totalDeathsSort,
       },
       {
-        Header: getPeriodName(1),
+        Header: periodNames[0],
         accessor: 'periods[0]',
         Cell: ({ value }: { value: Period }) => value?.totalDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -342,7 +360,7 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: totalDeathsSort,
       },
     ],
-    [],
+    [periodNames],
   ) as Array<Column<Country>>;
 
   const initialState = React.useMemo(
@@ -361,7 +379,13 @@ export const TotalDeathsTable = ({ data }: { data: Country[] }) => {
   );
 };
 
-export const NewDeathsTable = ({ data }: { data: Country[] }) => {
+export const NewDeathsTable = ({
+  data, periodLength,
+}: {
+  data: Country[],
+  periodLength: number
+}) => {
+  const periodNames = React.useMemo(() => getPeriodNames(periodLength), [periodLength]);
   const columns = React.useMemo(
     () => [
       {
@@ -370,7 +394,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: nameSort,
       },
       {
-        Header: getPeriodName(26),
+        Header: periodNames[5],
         accessor: 'periods[5]',
         Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -380,7 +404,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: newDeathsSort,
       },
       {
-        Header: getPeriodName(21),
+        Header: periodNames[4],
         accessor: 'periods[4]',
         Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -390,7 +414,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: newDeathsSort,
       },
       {
-        Header: getPeriodName(16),
+        Header: periodNames[3],
         accessor: 'periods[3]',
         Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -400,7 +424,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: newDeathsSort,
       },
       {
-        Header: getPeriodName(11),
+        Header: periodNames[2],
         accessor: 'periods[2]',
         Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -410,7 +434,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: newDeathsSort,
       },
       {
-        Header: getPeriodName(6),
+        Header: periodNames[1],
         accessor: 'periods[1]',
         Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -420,7 +444,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: newDeathsSort,
       },
       {
-        Header: getPeriodName(1),
+        Header: periodNames[0],
         accessor: 'periods[0]',
         Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
           minimumFractionDigits: 0,
@@ -430,7 +454,7 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
         sortType: newDeathsSort,
       },
     ],
-    [],
+    [periodNames],
   ) as Array<Column<Country>>;
 
   const initialState = React.useMemo(
@@ -449,7 +473,13 @@ export const NewDeathsTable = ({ data }: { data: Country[] }) => {
   );
 };
 
-export const GrowthTable = ({ data }: { data: Country[] }) => {
+export const GrowthTable = ({
+  data, periodLength,
+}: {
+  data: Country[],
+  periodLength: number
+}) => {
+  const periodNames = React.useMemo(() => getPeriodNames(periodLength), [periodLength]);
   const columns = React.useMemo(
     () => [
       {
@@ -458,49 +488,49 @@ export const GrowthTable = ({ data }: { data: Country[] }) => {
         sortType: nameSort,
       },
       {
-        Header: getPeriodName(26),
+        Header: periodNames[5],
         accessor: 'periods[5]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
         sortType: growthSort,
       },
       {
-        Header: getPeriodName(21),
+        Header: periodNames[4],
         accessor: 'periods[4]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
         sortType: growthSort,
       },
       {
-        Header: getPeriodName(16),
+        Header: periodNames[3],
         accessor: 'periods[3]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
         sortType: growthSort,
       },
       {
-        Header: getPeriodName(11),
+        Header: periodNames[2],
         accessor: 'periods[2]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
         sortType: growthSort,
       },
       {
-        Header: getPeriodName(6),
+        Header: periodNames[1],
         accessor: 'periods[1]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
         sortType: growthSort,
       },
       {
-        Header: getPeriodName(1),
+        Header: periodNames[0],
         accessor: 'periods[0]',
         Cell: ({ value }: { value: Period }) => formatCell(value).value,
         getClassName: (period: Period) => formatCell(period).className,
         sortType: growthSort,
       },
     ],
-    [],
+    [periodNames],
   ) as Array<Column<Country>>;
 
   const initialState = React.useMemo(
@@ -519,7 +549,13 @@ export const GrowthTable = ({ data }: { data: Country[] }) => {
   );
 };
 
-export const GrowthSummaryTable = ({ data }: { data: Country[] }) => {
+export const GrowthSummaryTable = ({
+  data, periodLength,
+}: {
+  data: Country[],
+  periodLength: number
+}) => {
+  const periodNames = React.useMemo(() => getPeriodNames(periodLength), [periodLength]);
   const columns = React.useMemo(() => {
     const country = data.length > 1
       ? [
@@ -534,26 +570,26 @@ export const GrowthSummaryTable = ({ data }: { data: Country[] }) => {
       ...country,
       ...[
         {
-          Header: getPeriodName(11),
+          Header: periodNames[2],
           accessor: 'periods[2]',
           Cell: ({ value }: { value: Period }) => formatCell(value).value,
           getClassName: (period: Period) => formatCell(period).className,
         },
         {
-          Header: getPeriodName(6),
+          Header: periodNames[1],
           accessor: 'periods[1]',
           Cell: ({ value }: { value: Period }) => formatCell(value).value,
           getClassName: (period: Period) => formatCell(period).className,
         },
         {
-          Header: getPeriodName(1),
+          Header: periodNames[0],
           accessor: 'periods[0]',
           Cell: ({ value }: { value: Period }) => formatCell(value).value,
           getClassName: (period: Period) => formatCell(period).className,
         },
       ],
     ];
-  }, [data.length]) as Array<Column<Country>>;
+  }, [data.length, periodNames]) as Array<Column<Country>>;
 
   const table = useTable({ columns, data });
 

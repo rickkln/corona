@@ -68,6 +68,16 @@ export const getPeriodName = (endingDaysAgo: number) => {
   return `${endDate.getDate()}/${endDate.getMonth() + 1}`;
 };
 
+export const getPeriodNames = (periodLength: number) => {
+  const columnCount = 6;
+  const validPeriodLength = validatePeriodLength(periodLength);
+  const periodNames = Array(columnCount).fill('');
+  return periodNames.map((_, index) => {
+    const endingDaysAgo = (1 + (validPeriodLength * index));
+    return getPeriodName(endingDaysAgo);
+  });
+};
+
 export const getTags = (countries: Country[]): Tag[] => countries.map((country) => ({
   id: country.name ?? '',
   name: country.name ?? '',

@@ -67,7 +67,7 @@ const IndexPage = () => {
           <Link to="/details">Status Info</Link>
         </div>
         <div style={{ flex: 1 }}>
-          <GrowthSummaryTable data={globalData} />
+          <GrowthSummaryTable data={globalData} periodLength={PERIOD_LENGTH} />
         </div>
       </div>
       <div
@@ -122,7 +122,7 @@ const IndexPage = () => {
           }}
         >
           <h3>Where are we winning?</h3>
-          <GrowthSummaryTable data={winningData} />
+          <GrowthSummaryTable data={winningData} periodLength={PERIOD_LENGTH} />
           <Link to="/data">More Data</Link>
           <br />
           <br />
@@ -136,7 +136,7 @@ const IndexPage = () => {
           }}
         >
           <h3>Where are we losing?</h3>
-          <GrowthSummaryTable data={losingData} />
+          <GrowthSummaryTable data={losingData} periodLength={PERIOD_LENGTH} />
           <Link to="/data">More Data</Link>
         </div>
       </div>

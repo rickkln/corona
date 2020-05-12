@@ -550,10 +550,13 @@ export const GrowthTable = ({
 };
 
 export const GrowthSummaryTable = ({
-  data, periodLength,
+  data,
+  periodLength,
+  desc = true,
 }: {
   data: Country[],
-  periodLength: number
+  periodLength: number,
+  desc?: boolean,
 }) => {
   const periodNames = React.useMemo(() => getPeriodNames(periodLength), [periodLength]);
   const columns = React.useMemo(() => {
@@ -572,26 +575,45 @@ export const GrowthSummaryTable = ({
         {
           Header: periodNames[2],
           accessor: 'periods[2]',
-          Cell: ({ value }: { value: Period }) => formatCell(value).value,
+          Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          }) ?? '',
           getClassName: (period: Period) => formatCell(period).className,
+          sortType: newDeathsSort,
         },
         {
           Header: periodNames[1],
           accessor: 'periods[1]',
-          Cell: ({ value }: { value: Period }) => formatCell(value).value,
+          Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          }) ?? '',
           getClassName: (period: Period) => formatCell(period).className,
+          sortType: newDeathsSort,
         },
         {
           Header: periodNames[0],
           accessor: 'periods[0]',
-          Cell: ({ value }: { value: Period }) => formatCell(value).value,
+          Cell: ({ value }: { value: Period }) => value?.newDeaths.toLocaleString(undefined, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          }) ?? '',
           getClassName: (period: Period) => formatCell(period).className,
+          sortType: newDeathsSort,
         },
       ],
     ];
   }, [data.length, periodNames]) as Array<Column<Country>>;
 
-  const table = useTable({ columns, data });
+  const initialState = React.useMemo(
+    () => ({
+      sortBy: [{ id: 'periods[0]', desc }],
+    }),
+    [],
+  ) as Partial<TableState<Country>>;
+
+  const table = useTable({ columns, data, initialState }, useSortBy);
 
   return (
     <div

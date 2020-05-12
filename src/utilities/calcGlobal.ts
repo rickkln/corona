@@ -82,5 +82,5 @@ export const calculateGlobalSummary = (
     initialPeriodSummaries,
   );
   periodSummaries.reverse();
-  return periodSummaries.slice(50 / validPeriodLength); // Cut off first 60 days for summary
+  return periodSummaries;
 };

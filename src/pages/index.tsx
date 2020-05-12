@@ -19,8 +19,10 @@ const IndexPage = () => {
   const countries = useMemo(() => calculateData(data, PERIOD_LENGTH), [data]);
   const globalData = sumPeriodData(countries, PERIOD_LENGTH);
   const globalSummaryData = calculateGlobalSummary(countries, PERIOD_LENGTH);
+  const globalSummarySinceTwoMonths = globalSummaryData.slice(60 / PERIOD_LENGTH);
   const losingData = countries.filter(
-    (country) => country.periods[0].status === OutbreakStatus.Losing,
+    (country) => country.periods[0].status === OutbreakStatus.Losing
+      || country.periods[0].status === OutbreakStatus.Flattening,
   );
   const winningData = countries.filter(
     (country) => country.periods[0].status === OutbreakStatus.Winning
@@ -77,7 +79,7 @@ const IndexPage = () => {
         }}
       >
         <h3 style={{ marginBottom: '0.8rem' }}>In how many places are winning?</h3>
-        <SummaryChart data={globalSummaryData} />
+        <SummaryChart data={globalSummarySinceTwoMonths} />
       </div>
       <p className="chart-comment">
         The
@@ -121,8 +123,8 @@ const IndexPage = () => {
             textAlign: 'center',
           }}
         >
-          <h3>Where are we winning?</h3>
-          <GrowthSummaryTable data={winningData} periodLength={PERIOD_LENGTH} />
+          <h3>Where are we succeeding?</h3>
+          <GrowthSummaryTable data={winningData} periodLength={PERIOD_LENGTH} desc={false} />
           <Link to="/data">More Data</Link>
           <br />
           <br />
@@ -135,7 +137,7 @@ const IndexPage = () => {
             textAlign: 'center',
           }}
         >
-          <h3>Where are we losing?</h3>
+          <h3>Where are we failing?</h3>
           <GrowthSummaryTable data={losingData} periodLength={PERIOD_LENGTH} />
           <Link to="/data">More Data</Link>
         </div>

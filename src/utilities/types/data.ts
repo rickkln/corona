@@ -47,4 +47,5 @@ export interface PeriodSummary {
   winning: number
   won: number
   pandemicFree: number
+  underControl: number
 }

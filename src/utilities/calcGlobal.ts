@@ -48,6 +48,7 @@ export const calculateGlobalSummary = (
       winning: 0,
       won: 0,
       pandemicFree: 0,
+      underControl: 0,
     }),
   );
   const periodSummaries = countries.reduce(
@@ -74,6 +75,15 @@ export const calculateGlobalSummary = (
           && country.periods[periodIndex].newCases === 0
         ) {
           newGlobalPeriods[periodIndex].pandemicFree += ((1 / 186) * 100);
+        }
+        if (
+          country.periods[periodIndex].status === OutbreakStatus.None
+          || country.periods[periodIndex].status === OutbreakStatus.Small
+          || country.periods[periodIndex].status === OutbreakStatus.Crushing
+          || country.periods[periodIndex].status === OutbreakStatus.Winning
+          || country.periods[periodIndex].status === OutbreakStatus.Won
+        ) {
+          newGlobalPeriods[periodIndex].underControl += ((1 / 186) * 100);
         }
         return newGlobalPeriods;
       },

@@ -13,6 +13,7 @@ import { sumPeriodData, calculateGlobalSummary } from '../utilities/calcGlobal';
 import OutbreakStatus from '../utilities/types/OutbreakStatus';
 import CountryQuery from '../utilities/query';
 import PandemicFreeChart from '../components/status/pandemicFreeChart';
+import UnderControlChart from '../components/status/underControlChart';
 
 const IndexPage = () => {
   const { loading, error, data } = useQuery<Countries>(CountryQuery);
@@ -103,6 +104,14 @@ const IndexPage = () => {
         style={{
           textAlign: 'center',
           marginTop: '1.2rem',
+        }}
+      >
+        <h3 style={{ marginBottom: 0 }}>How many places have the pandemic under control?</h3>
+        <UnderControlChart data={globalSummaryData} />
+      </div>
+      <div
+        style={{
+          textAlign: 'center',
         }}
       >
         <h3 style={{ marginBottom: 0 }}>How much of the world is pandemic free?</h3>
